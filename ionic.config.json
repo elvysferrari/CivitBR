@@ -1,5 +1,7 @@
 {
   "name": "CivitBR",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
