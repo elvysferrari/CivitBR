@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cidades</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item (click)="tapCidade(cidade)" *ngFor="let cidade of cidades">
+      {{cidade.nome}}
+    </ion-item>
+  </ion-list>
+</ion-content>

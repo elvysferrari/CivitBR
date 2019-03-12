@@ -16,8 +16,8 @@ const routes: Routes = [
     loadChildren: './pages/list/list.module#ListPageModule'
   },
   { 
-    path: 'cidade', 
-    loadChildren: './pages/cidade/cidade.module#CidadePageModule' 
+    path: 'cidade-list', 
+    loadChildren: './pages/cidade-list/cidade-list.module#CidadeListPageModule' 
   }
 
 ];

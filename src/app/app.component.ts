@@ -22,7 +22,7 @@ export class AppComponent {
     },
     {
       title: 'Cidades',
-      url: '/cidade',
+      url: '/cidade-list',
       icon: 'list'
     }
   ];

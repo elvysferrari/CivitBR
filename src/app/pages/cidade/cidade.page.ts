@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Cidade } from 'src/app/models/cidade';
-import { CidadeService } from 'src/app/services/cidade.service';
 
 @Component({
   selector: 'app-cidade',
@@ -8,36 +7,14 @@ import { CidadeService } from 'src/app/services/cidade.service';
   styleUrls: ['./cidade.page.scss'],
 })
 export class CidadePage implements OnInit {
-  cidades: Cidade[];
-  constructor(private cidadeService: CidadeService) {
+  cidade: Cidade;
+  constructor() {
  
   }
 
   ngOnInit() {
-    this.cidadeService.getCidades().subscribe(data => {
-      this.cidades = data.map(e => {
-        return {
-          id: e.payload.doc.id,
-          ...e.payload.doc.data()
-        } as Cidade;
-      })
-    })
+    
   }
 
-  create(cidade: Cidade) {
-    this.cidadeService.createCidade(cidade);
-  }
-
-  update(cidade: Cidade) {
-    this.cidadeService.updateCidade(cidade);
-  }
-
-  delete(id: string) {
-    this.cidadeService.deleteCidade(id);
-  }
-
-  tapCidade(cidade: Cidade){
-    this.delete(cidade.id);
-    console.log('tapCidade', cidade)
-  }
+  
 }
