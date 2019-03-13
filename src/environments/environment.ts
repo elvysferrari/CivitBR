@@ -11,8 +11,7 @@ export const environment = {
     projectId: 'civitbr',
     storageBucket: 'civitbr.appspot.com',
     messagingSenderId: '364437098770'
-  },
-  tes:''
+  }
 };
 
 /*
