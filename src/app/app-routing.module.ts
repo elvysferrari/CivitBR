@@ -17,8 +17,11 @@ const routes: Routes = [
   },
   { 
     path: 'cidade-list', 
-    loadChildren: './pages/cidade-list/cidade-list.module#CidadeListPageModule' 
-  }
+    loadChildren: './pages/cidade-list/cidade-list.module#CidadeListPageModule'
+  },
+  { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' }
+
 
 ];
 

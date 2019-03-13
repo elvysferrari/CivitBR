@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title text-center>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="signinForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+    <ion-item> 
+      <ion-icon name="person" item-left color="primary"></ion-icon>
+      <ion-input padding placeholder="Email" formControlName="email"></ion-input>    
+    </ion-item> 
+     
+    <ion-item>
+      <ion-icon name="lock" item-left color="primary"></ion-icon>
+      <ion-input placeholder="Password" type="password" formControlName="password"></ion-input>
+    </ion-item> 
+ 
+    <br>
+    <ion-button (click)="onSubmit()" [disabled]="signinForm.invalid" expand="full" color="primary">Login</ion-button>
+  </form> 
+</ion-content>

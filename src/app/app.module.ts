@@ -1,3 +1,4 @@
+import { UserService } from './services/user.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -12,6 +13,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from 'src/environments/environment';
+
+import { AuthService } from './services/auth.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+
+import { PersonService } from './services/person.service';
+import { AuthGuard } from './guards/auth.guard';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -23,6 +31,11 @@ import { environment } from 'src/environments/environment';
     AngularFirestoreModule
   ],
   providers: [
+    AuthGuard,
+    UserService,
+    AuthService,
+    AngularFireAuth,
+    PersonService,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
