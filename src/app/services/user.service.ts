@@ -92,4 +92,42 @@ export class UserService {
     });
   }
 
+  getPrivatePages(){
+    return [
+     {
+      title: 'Postagens',
+      url: '/home',
+      icon: 'home'
+    },
+    {
+      title: 'Inserir Postagem',
+      url: '/list',
+      icon: 'list'
+    },    
+    {
+      title: 'Favoritos',
+      url: '/cidade-list',
+      icon: 'list'
+    },
+    {
+      title: 'Minha Conta',
+      url: '/cidade-list',
+      icon: 'list'
+    }]
+  }
+
+  getPublicPages(){
+    return [
+     {
+      title: 'Postagens',
+      url: '/home',
+      icon: 'home'
+    },
+    {
+      title: 'Entrar',
+      url: '/login',
+      icon: 'list'
+    }]
+  }
+
 }

@@ -1,9 +1,31 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>signup</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cadastre-se</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
+  <form [formGroup]="signinUp" (ngSubmit)="onSubmit(); $event.preventDefault()">
+    <ion-item>
+      <ion-icon name="person" item-left color="primary"></ion-icon>
+      <ion-input padding placeholder="Nome" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="person" item-left color="primary"></ion-icon>
+      <ion-input padding placeholder="Email" formControlName="email"></ion-input>
+    </ion-item>
 
+    <ion-item>
+      <ion-icon name="lock" item-left color="primary"></ion-icon>
+      <ion-input placeholder="Password" type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+    <br>
+    <ion-button (click)="onSubmit()" [disabled]="signinUp.invalid" expand="full" color="primary">CADASTRAR
+    </ion-button>
+
+  </form>
 </ion-content>

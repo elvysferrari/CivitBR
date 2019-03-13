@@ -26,6 +26,14 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
+  
+  }
+  onSignup(){
+    this.route.navigate(['/signup'])    
+  }
+
+  onResetPassword(){
+    console.log('onResetPassword')
   }
 
   async onSubmit(){
@@ -48,4 +56,5 @@ export class LoginPage implements OnInit {
 
 
   }
+
 }

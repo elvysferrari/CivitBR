@@ -1,3 +1,4 @@
+import { UserService } from 'src/app/services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Cidade } from 'src/app/models/cidade';
 import { CidadeService } from 'src/app/services/cidade.service';
@@ -9,7 +10,8 @@ import { CidadeService } from 'src/app/services/cidade.service';
 })
 export class CidadeListPage implements OnInit {
   cidades: Cidade[];
-  constructor(private cidadeService: CidadeService) { }
+  constructor(private cidadeService: CidadeService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.cidadeService.getCidades().subscribe(data => {
@@ -35,6 +37,7 @@ export class CidadeListPage implements OnInit {
 
   tapCidade(cidade: Cidade){
     //this.delete(cidade.id);
+    this.userService.logout();
     console.log('tapCidade', cidade)
   }
 }

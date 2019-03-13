@@ -12,24 +12,13 @@ import { UserService } from './services/user.service';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  public appPages = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
-    },
-    {
-      title: 'Cidades',
-      url: '/cidade-list',
-      icon: 'list'
-    }
-  ];
+  
+  
+  public appPages = [];
+   
+  
 
+ 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -49,18 +38,23 @@ export class AppComponent {
 
     this.auth.afAuth.authState
     .subscribe(
-      user => {        
+      async (user) => {        
         if (user) {
-          this.userService.getUserByUid(user.uid);       
-          this.route.navigateByUrl("home")
-        } else {
-          this.route.navigateByUrl("login")
+          this.appPages = this.userService.getPrivatePages();
+          await this.userService.getUserByUid(user.uid);                 
+        }else{
+          this.appPages = this.userService.getPublicPages();
         }
+        this.route.navigateByUrl("home")
       },
       () => {
-        this.route.navigateByUrl("login")
+        this.route.navigateByUrl("home")
       }
     );
+  }
+
+  navigateTo(url){
+    this.route.navigate([url])
   }
   
 }
