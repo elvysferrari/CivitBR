@@ -11,6 +11,7 @@ export class Post {
     status: string;
     userUid: string;
     userName: string;
+    situacao: string;
     publicadoEm: Date;
     comentarios: Comentario[];
 }

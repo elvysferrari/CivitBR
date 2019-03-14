@@ -18,9 +18,23 @@
     <ion-list>
         <ion-item *ngFor="let post of posts">
           <ion-thumbnail slot="start">
-            <ion-img src="https://firebasestorage.googleapis.com/v0/b/civitbr.appspot.com/o/6r2yk3yi6qp?alt=media&token=3bddc570-6730-430f-b217-64e3e4b4145e"></ion-img>
+            <ion-img [src]="post.imagens[0].url != undefined ? post.imagens[0].url : 'assets/images/noimage.png'"></ion-img>
           </ion-thumbnail>
-          <ion-label>{{post.titulo}}</ion-label>
+          <div style="display: flex; flex-direction: column">
+            <div class="label-item-title">
+                {{post.titulo}}
+            </div>
+            <div class="label-item-description">
+                Categoria: {{post.categoria}}
+            </div>
+            <div class="label-item-date">
+                Situação: {{ post.situacao ? post.situacao : 'Pendente' }}
+             </div>
+            <div class="label-item-date">
+               Publicado em: {{post.publicadoEm | date:'dd/MM/yyyy HH:mm'}}, {{post.cidade}}
+            </div>
+          </div>
+          
         </ion-item>
       </ion-list>
 

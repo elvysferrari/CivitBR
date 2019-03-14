@@ -40,17 +40,17 @@
   <br>
   <form [formGroup]="postForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
     <ion-item>
-      <ion-label position="stacked">Título</ion-label>
+      <ion-label position="stacked">Título *</ion-label>
       <ion-input formControlName="titulo" placeholder="Dígite um título"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Descrição</ion-label>
+      <ion-label position="stacked">Descrição *</ion-label>
       <ion-input formControlName="descricao" placeholder="Dígite uma descrição"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Categoria</ion-label>
+      <ion-label>Categoria *</ion-label>
       <ion-select formControlName="categoria" placeholder="Selecione a categoria">
         <ion-select-option value="r">Rua</ion-select-option>
         <ion-select-option value="i">Interior</ion-select-option>
@@ -58,7 +58,7 @@
     </ion-item>
 
     <ion-item>
-        <ion-label>Cidade</ion-label>
+        <ion-label>Cidade *</ion-label>
         <ion-select formControlName="cidade" placeholder="Selecione a categoria">
           <ion-select-option value="c">Coronel Vivida</ion-select-option>
           <ion-select-option value="p">Pato Branco</ion-select-option>

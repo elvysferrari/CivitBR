@@ -22,18 +22,25 @@ export class HomePage {
           id: e.payload.doc.id,          
           ...e.payload.doc.data()
         } as Post;
-      })
-      
-    })
-    
+      })  
+      this.posts.sort((a: any, b: any) => {
+        return a.publicadoEm > b.publicadoEm ? -1 : 1;
+      });
+      this.posts.forEach(async (post: Post) => {        
+        await this.postService.getPostImages(post.imagens).then((result) => {
+          post.imagens = result;
+          console.log('result', post.imagens)
+        })
+      }) 
+    })    
   }
+  
   changeSearch(evt) {
     if (evt.detail.value == "") {
       this.postsFiltered = this.posts;
     } else {
       this.postsFiltered = this.posts.filter(x => x.titulo.toLocaleLowerCase().includes(evt.detail.value.toLocaleLowerCase()));
     }
-    console.log('post', this.posts)
   }
 
   cancelSearch(evt) {
