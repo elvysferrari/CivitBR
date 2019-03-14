@@ -16,8 +16,8 @@
 
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let post of posts">
-          <ion-thumbnail slot="start">
+        <ion-item (click)="viewPost(post)" *ngFor="let post of postsFiltered">
+          <ion-thumbnail style="width: 100px; height: 100px;" slot="start">
             <ion-img [src]="post.imagens[0].url != undefined ? post.imagens[0].url : 'assets/images/noimage.png'"></ion-img>
           </ion-thumbnail>
           <div style="display: flex; flex-direction: column">
@@ -31,8 +31,11 @@
                 Situação: {{ post.situacao ? post.situacao : 'Pendente' }}
              </div>
             <div class="label-item-date">
-               Publicado em: {{post.publicadoEm | date:'dd/MM/yyyy HH:mm'}}, {{post.cidade}}
+               Publicado em: {{post.publicadoEm | date:'dd/MM/yyyy HH:mm'}}
             </div>
+            <div class="label-item-date">
+              {{ post.cidade }}
+           </div>
           </div>
           
         </ion-item>

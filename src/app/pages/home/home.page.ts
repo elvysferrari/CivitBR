@@ -2,6 +2,7 @@ import { Post } from './../../models/post';
 import { Component } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { PostsService } from 'src/app/services/posts.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,25 +14,26 @@ export class HomePage {
   posts: Post[] = [];
   showSearchBar: boolean = false;
 
-  constructor(private postService: PostsService){}
+  constructor(private postService: PostsService,
+              private route: Router){}
 
   ngOnInit(): void {
     this.postService.getPosts().subscribe(data => {      
-      this.posts = data.map(e => {        
+      this.postsFiltered = data.map(e => {        
         return {
           id: e.payload.doc.id,          
           ...e.payload.doc.data()
         } as Post;
       })  
-      this.posts.sort((a: any, b: any) => {
+      this.postsFiltered.sort((a: any, b: any) => {
         return a.publicadoEm > b.publicadoEm ? -1 : 1;
       });
-      this.posts.forEach(async (post: Post) => {        
+      this.postsFiltered.forEach(async (post: Post) => {        
         await this.postService.getPostImages(post.imagens).then((result) => {
           post.imagens = result;
-          console.log('result', post.imagens)
         })
       }) 
+      this.posts = this.postsFiltered
     })    
   }
   
@@ -50,5 +52,9 @@ export class HomePage {
 
   clickIconSearchBar(){
     this.showSearchBar = !this.showSearchBar
+  }
+
+  viewPost(post:Post){
+    this.route.navigate(['/view-post', post.id])
   }
 }

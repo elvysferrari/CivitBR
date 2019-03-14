@@ -20,8 +20,10 @@ const routes: Routes = [
     loadChildren: './pages/cidade-list/cidade-list.module#CidadeListPageModule'
   },
   { path: 'signup', loadChildren: './pages/signup/signup.module#SignupPageModule' },
-  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },  { path: 'view-post', loadChildren: './pages/view-post/view-post.module#ViewPostPageModule' },
-  { path: 'insert-post', loadChildren: './pages/insert-post/insert-post.module#InsertPostPageModule' }
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  { path: 'view-post/:id', loadChildren: './pages/view-post/view-post.module#ViewPostPageModule' },
+  { path: 'insert-post', loadChildren: './pages/insert-post/insert-post.module#InsertPostPageModule' },  { path: 'view-comments', loadChildren: './pages/view-comments/view-comments.module#ViewCommentsPageModule' }
+
 
 
 

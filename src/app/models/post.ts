@@ -1,4 +1,5 @@
 import { Comentario } from './comentario';
+import { Curtida } from './curtidas';
 
 export class Post {
     id: string
@@ -13,5 +14,6 @@ export class Post {
     userName: string;
     situacao: string;
     publicadoEm: Date;
-    comentarios: Comentario[];
+    totalComentarios: number;
+    totalCurtidas: number[];
 }
