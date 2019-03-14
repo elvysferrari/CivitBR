@@ -1,4 +1,3 @@
-import { UserService } from './../../services/user.service';
 import { Component } from '@angular/core';
 import { User } from 'src/app/models/user';
 
@@ -8,31 +7,29 @@ import { User } from 'src/app/models/user';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  user: User;
-  constructor(private userService: UserService){}
+  postsFiltered: any[];
+  posts: any[];
+  showSearchBar: boolean = false;
+
+  constructor(){}
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    /*  let user = new User;
-    user.email = 'elvys.ferrari@gmail.com'
-    user.name = 'Elvys Ferrari'
-    user.password = '123456'
-    this.userService.createUser(user).then((result) => {
-      console.log('Home', result)
-    })  */
-    /* let user= new User();
-    user.email = "elvys.ferrari@gmail.com"
-    user.password = '123456'
-    this.userService.loginUser(user).then((resp) => {
-      console.log('Home', resp)
-    })
+     
+  }
+  changeSearch(evt) {
+    if (evt.detail.value == "") {
+      this.postsFiltered = this.posts;
+    } else {
+      this.postsFiltered = this.posts.filter(x => x.titulo.toLocaleLowerCase().includes(evt.detail.value.toLocaleLowerCase()));
+    }
+  }
 
-    this.userService.getLogged().subscribe((user)=>{
-      console.log('logou', user)
-    }) */
-    this.userService.getLogged().subscribe((user: User) => {
-      this.user = user;
-    })
+  cancelSearch(evt) {
+    this.postsFiltered = this.posts;
+    this.showSearchBar = false;
+  }
+
+  clickIconSearchBar(){
+    this.showSearchBar = !this.showSearchBar
   }
 }

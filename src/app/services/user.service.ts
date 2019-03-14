@@ -17,12 +17,16 @@ export class UserService {
 
   }
 
-  public getUserByUid(uid: string){
-    this.firestore.collection("users",ref => ref.where('uid', '==', uid)).valueChanges().subscribe((collection) => {     
-      if(collection){        
-        this.login(collection[0] as User)
-      }      
+  public setUserByUid(uid: string){
+    return new Promise((resolve, reject) => {
+      this.firestore.collection("users",ref => ref.where('uid', '==', uid)).valueChanges().subscribe((collection) => {     
+        if(collection){        
+          this.login(collection[0] as User)     
+          resolve(collection[0]);   
+        }      
+      }, err => reject(err))
     })
+    
   }
 
   public getLogged(): Observable<User> {
@@ -97,22 +101,22 @@ export class UserService {
      {
       title: 'Postagens',
       url: '/home',
-      icon: 'home'
+      icon: 'paper'
     },
     {
       title: 'Inserir Postagem',
       url: '/list',
-      icon: 'list'
+      icon: 'create'
     },    
     {
       title: 'Favoritos',
       url: '/cidade-list',
-      icon: 'list'
+      icon: 'heart'
     },
     {
       title: 'Minha Conta',
       url: '/cidade-list',
-      icon: 'list'
+      icon: 'person'
     }]
   }
 
@@ -121,12 +125,12 @@ export class UserService {
      {
       title: 'Postagens',
       url: '/home',
-      icon: 'home'
+      icon: 'paper'
     },
     {
       title: 'Entrar',
       url: '/login',
-      icon: 'list'
+      icon: 'person'
     }]
   }
 
