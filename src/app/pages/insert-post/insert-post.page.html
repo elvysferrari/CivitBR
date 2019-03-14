@@ -1,9 +1,73 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>insertPost</ion-title>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nova Postagem</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
 
+  <div style="display:flex; flex-direction: row" class="wrapper">
+    <div class="file-upload">
+      <input (change)="upload($event, 0)" accept=".png,.jpg" type="file" />
+      <img *ngIf="images[0].url != ''" class="img-format" [src]="getBackground(images[0].url)">
+      <img *ngIf="images[0].url == ''" class="img-format" src="assets/images/uploadphoto.png">
+    </div>
+    <div class="file-upload">
+      <input (change)="upload($event, 1)" accept=".png,.jpg" type="file" />
+      <img *ngIf="images[1].url != ''" class="img-format" [src]="getBackground(images[1].url)">
+      <img *ngIf="images[1].url == ''" class="img-format" src="assets/images/uploadphoto.png">
+    </div>
+    <div class="file-upload">
+      <input (change)="upload($event, 2)" accept=".png,.jpg" type="file" />
+      <img *ngIf="images[2].url != ''" class="img-format" [src]="getBackground(images[2].url)">
+      <img *ngIf="images[2].url == ''" class="img-format" src="assets/images/uploadphoto.png">
+    </div>
+    <div class="file-upload">
+      <input (change)="upload($event, 3)" accept=".png,.jpg" type="file" />
+      <img *ngIf="images[3].url != ''" class="img-format" [src]="getBackground(images[3].url)">
+      <img *ngIf="images[3].url == ''" class="img-format" src="assets/images/uploadphoto.png">
+    </div>
+    <div class="file-upload">
+      <input (change)="upload($event, 4)" accept=".png,.jpg" type="file" />
+      <img *ngIf="images[4].url != ''" class="img-format" [src]="getBackground(images[4].url)">
+      <img *ngIf="images[4].url == ''" class="img-format" src="assets/images/uploadphoto.png">
+    </div>
+  </div>
+  <ion-progress-bar [value]="uploadProgress"></ion-progress-bar>
+  <br>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+    <ion-item>
+      <ion-label position="stacked">Título</ion-label>
+      <ion-input formControlName="titulo" placeholder="Dígite um título"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Descrição</ion-label>
+      <ion-input formControlName="descricao" placeholder="Dígite uma descrição"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Categoria</ion-label>
+      <ion-select formControlName="categoria" placeholder="Selecione a categoria">
+        <ion-select-option value="r">Rua</ion-select-option>
+        <ion-select-option value="i">Interior</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+        <ion-label>Cidade</ion-label>
+        <ion-select formControlName="cidade" placeholder="Selecione a categoria">
+          <ion-select-option value="c">Coronel Vivida</ion-select-option>
+          <ion-select-option value="p">Pato Branco</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+  </form>
+
+  <!-- <ion-button (click)="uploadFirebase()">Upload</ion-button> -->
+  
+  <ion-button color="tertiary" (click)="onSubmit()"  expand="full" [disabled]="postForm.invalid">CRIAR</ion-button>
 </ion-content>

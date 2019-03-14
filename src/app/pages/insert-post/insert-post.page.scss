@@ -1,0 +1,46 @@
+
+.img-format{
+    height: 60px;
+    width: 60px;
+    padding-bottom: 10px;
+}
+
+.wrapper{
+    
+    display:flex;
+    align-items:left;
+    justify-content:left;
+    
+  
+    .file-upload{
+  
+      height:60px;
+      width:70px;
+      border-radius: 100px;
+      position:relative;
+      
+      display:flex;
+      justify-content:left;
+      align-items: left;  
+  
+      border:4px solid #FFFFFF;
+      overflow:hidden;
+      background-image: linear-gradient(to bottom, rgb(236, 239, 241) 50%, #FFFFFF 50%);
+      background-size: 100% 200%;
+      transition: all 1s;
+      color: #FFFFFF;
+      font-size:100px;
+  
+      input[type='file']{
+  
+        height:50px;
+        width:50px;
+        position:absolute;
+        top:0;
+        left:0;
+        opacity:0;
+        cursor:pointer;
+  
+      }
+    }
+  }

@@ -105,7 +105,7 @@ export class UserService {
     },
     {
       title: 'Inserir Postagem',
-      url: '/list',
+      url: '/insert-post',
       icon: 'create'
     },    
     {

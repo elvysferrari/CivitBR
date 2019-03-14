@@ -2,7 +2,7 @@ import { Comentario } from './comentario';
 
 export class Post {
     id: string
-    imagens: string;
+    imagens: string[];
     titulo: string;
     descricao: string;
     categoria: string;

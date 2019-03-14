@@ -16,9 +16,11 @@ import { environment } from 'src/environments/environment';
 
 import { AuthService } from './services/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { PersonService } from './services/person.service';
 import { AuthGuard } from './guards/auth.guard';
+import { PostsService } from './services/posts.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,9 +30,11 @@ import { AuthGuard } from './guards/auth.guard';
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   providers: [
+    PostsService,
     AuthGuard,
     UserService,
     AuthService,

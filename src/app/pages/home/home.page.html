@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="tertiary">
     <ion-buttons slot="start">
       <ion-menu-button ></ion-menu-button>       
           
@@ -15,6 +15,17 @@
 </ion-header>
 
 <ion-content>
-    
+    <ion-list>
+        <ion-item *ngFor="let post of posts">
+          <ion-thumbnail slot="start">
+            <ion-img src="https://firebasestorage.googleapis.com/v0/b/civitbr.appspot.com/o/6r2yk3yi6qp?alt=media&token=3bddc570-6730-430f-b217-64e3e4b4145e"></ion-img>
+          </ion-thumbnail>
+          <ion-label>{{post.titulo}}</ion-label>
+        </ion-item>
+      </ion-list>
+
+    <ion-card>
+        
+      </ion-card>
 </ion-content>
  
