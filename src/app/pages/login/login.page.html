@@ -9,7 +9,21 @@
 
 <ion-content padding>
   <form [formGroup]="signinForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
-    <ion-item>      
+
+   <!--  <ion-button style="--background: #385898;  color:#fff" shape="round" (click)="onLoginFacebook()" color=""
+      expand="full">Entrar com Facebook
+      <ion-icon slot="start" name="logo-facebook"></ion-icon>
+    </ion-button>
+
+    <div style="padding-top: 5px; text-align: center">
+      ou
+    </div> -->
+
+    <div style="padding-top: 5px; font-size:0.8rem; text-align: center">
+      Acessar com email: 
+    </div>
+
+    <ion-item style="padding-top: 5px;">
       <ion-icon name="mail" item-left color="primary"></ion-icon>
       <ion-input padding placeholder="Email" formControlName="email"></ion-input>
     </ion-item>
@@ -19,13 +33,22 @@
       <ion-input placeholder="Password" type="password" formControlName="password"></ion-input>
     </ion-item>
 
-    <p (click)="onResetPassword()" style="color:black; text-decoration: underline; padding-left: 3px; padding-top: 5px">
+    <p (click)="onResetPassword()"
+      style="color:black; font-size:0.8rem; text-decoration: underline; padding-left: 3px; padding-top: 5px">
       Esqueci minha senha</p>
 
     <br>
-    <ion-button (click)="onSubmit()" [disabled]="signinForm.invalid" expand="full" color="primary">ACESSAR</ion-button>
+    <ion-button shape="round" (click)="onSubmit()" [disabled]="signinForm.invalid" expand="full" color="primary">Entrar
+    </ion-button>
 
-    <ion-button style="padding-top: 5px;" (click)="onSignup()" expand="full" color="light">CADASTRE-SE</ion-button>
+    <ion-item>
+      <p>Não tem conta?</p>
+      <p (click)="onSignup()" style="color:rgb(90, 21, 107); text-decoration: underline; padding-left: 3px;">
+        Cadastre-se</p>
+
+    </ion-item>
+
+    <!-- <ion-button style="padding-top: 5px;" (click)="onSignup()" expand="full" color="light">CADASTRE-SE</ion-button> -->
 
 
   </form>

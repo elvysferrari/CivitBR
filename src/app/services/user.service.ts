@@ -32,7 +32,7 @@ export class UserService {
   public getLogged(): Observable<User> {
     return this.userLogged.asObservable();
   }
-
+  
   loginUser(loginUser: User) {
     return new Promise((resolve, reject) => {
       this.authService.signinWithEmail(

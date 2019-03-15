@@ -1,9 +1,35 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>viewComments</ion-title>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button class="show-back-button"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Comentários</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content padding>
+  <div class="comment-box">
+    <ion-card class="cards" *ngFor="let comment of comments">
+      <ion-card-content class="cards-content">
 
+        <p class="card-date" slot="start">
+          <span style="color:#5c8aec">{{ comment.userName }}</span><span> - {{ comment.dataComentario | date : 'dd/MM/yyyy HH:mm'}}</span>
+        </p>
+
+        <p style="font-size: 12px;">{{ comment.comentario }}</p>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
+<ion-footer>
+  <ion-card class="card-comment">
+    <ion-card-content class="card-content-comment">
+      <ion-textarea color="medium" [(ngModel)]="message" type="text" placeholder="Comentário .... "></ion-textarea>
+      <ion-fab style="padding-bottom: 35px;" vertical="bottom" horizontal="end" edge slot="fixed">
+        <ion-fab-button (click)="sendComment()" style="width: 38px; height: 38px;">
+          <ion-icon name="send"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-card-content>
+  </ion-card>
+</ion-footer>

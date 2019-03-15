@@ -36,6 +36,8 @@ export class LoginPage implements OnInit {
     console.log('onResetPassword')
   }
 
+  
+
   async onSubmit(){
     let formUser = this.signinForm.value as User;
     formUser.email = formUser.email.trim().toLowerCase();

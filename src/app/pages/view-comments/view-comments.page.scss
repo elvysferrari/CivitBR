@@ -1,0 +1,47 @@
+.cards{
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin-top: 0px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+
+    box-shadow: 0 2px 2px rgba(0,0,0,.12)
+}
+.cards-content{
+    padding-inline-start: 5px;
+    padding-inline-end: 5px;
+    padding-bottom: 10px;
+    padding-top: 0px;
+    font-size: 10px;
+}
+.card-date{
+    font-size: 10px;
+    font-weight: 600;
+    color: #666;
+    padding-top: 20px;
+}
+
+.card-comment{
+    margin-inline-start:15px;
+    margin-inline-end:16;
+    margin-top:0px;
+    margin-bottom: 6px;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    box-shadow: 0 2px 2px rgba(0,0,0,.12)
+}
+.card-content-comment{
+    padding-inline-start: 5px;
+    padding-inline-end: 5px;
+    padding-top: 2px;
+    padding-bottom: 0px;
+    font-size: 12px;
+    line-height: 1.6;
+}

@@ -15,5 +15,5 @@ export class Post {
     situacao: string;
     publicadoEm: Date;
     totalComentarios: number;
-    totalCurtidas: number[];
+    totalCurtidas: number;
 }

@@ -21,6 +21,8 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { PersonService } from './services/person.service';
 import { AuthGuard } from './guards/auth.guard';
 import { PostsService } from './services/posts.service';
+import { CurtidaService } from './services/curtida.service';
+import { ComentarioService } from './services/comentario.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +36,8 @@ import { PostsService } from './services/posts.service';
     AngularFireStorageModule
   ],
   providers: [
+    CurtidaService,
+    ComentarioService,
     PostsService,
     AuthGuard,
     UserService,

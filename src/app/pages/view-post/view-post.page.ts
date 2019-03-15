@@ -1,7 +1,13 @@
+import { ComentarioService } from './../../services/comentario.service';
+import { CurtidaService } from './../../services/curtida.service';
+import { Comentario } from './../../models/comentario';
+import { User } from 'src/app/models/user';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from 'src/app/models/post';
 import { PostsService } from 'src/app/services/posts.service';
+import { UserService } from 'src/app/services/user.service';
+import { Curtida } from 'src/app/models/curtidas';
 
 @Component({
   selector: 'app-view-post',
@@ -11,29 +17,87 @@ import { PostsService } from 'src/app/services/posts.service';
 export class ViewPostPage implements OnInit {
   postId: string;
   post: Post;
-  postUrlImages: string[] =[]
+  postUrlImages: any[] = []
+  postComentarios: Comentario[] = [];
+  postCurtidas: Curtida[] = [];
+
+  curtiu: Curtida;
+  heartColor: string = 'dark'
   slideOpts = {
     effect: 'flip'
   };
 
+  user: User;
+
   constructor(private route: ActivatedRoute,
-              private postService: PostsService) { 
+    private postService: PostsService,
+    private userService: UserService,
+    private curtidaService: CurtidaService,
+    private comentarioService: ComentarioService,
+    private router: Router) {
     this.postId = this.route.snapshot.paramMap.get('id');
-    if(this.postId){
+    if (this.postId) {
       postService.getPost(this.postId).then((post: Post) => {
         this.post = post;
+        this.post.id = this.postId;
+        this.post.totalComentarios = 15457;
         this.postService.getPostImages(post.imagens).then((result) => {
           this.postUrlImages = result;
         })
         
+        this.curtidaService.getCurtidas(this.postId).then((result) => {
+          this.postCurtidas = result;        
+          if (this.postCurtidas != undefined) {
+            this.post.totalCurtidas = this.postCurtidas.length;
+            this.curtiu = this.postCurtidas.find(x => x.userId == this.user.uid);
+            if (this.curtiu != undefined) {
+              this.heartColor = 'primary'
+            }
+          }          
+        })
+
       })
     }
   }
 
   ngOnInit() {
+    this.userService.getLogged().subscribe((user: User) => {
+      this.user = user;
+    })
   }
 
-  clickIconHeart(){
+  clickIconHeart() {
+    if (this.user == undefined) {
+      this.router.navigate(['/login'])
+    } else {
+      if (this.curtiu == undefined) {
+        let curtida = new Curtida();
+        curtida.postId = this.postId;
+        curtida.userId = this.user.uid;
+        this.curtidaService.addCurtidas(curtida).then((result) => {
+          this.curtiu = new Curtida();
+          this.curtiu.id = result['id']
+          this.curtiu.postId = this.postId;
+          this.curtiu.userId = this.user.uid;
+          this.heartColor = 'primary'
+          this.post.totalCurtidas = this.post.totalCurtidas + 1;
+        })
+      } else {
+        this.curtidaService.deleteCurtidas(this.curtiu.id).then(() => {
+          this.curtiu = undefined;
+          this.heartColor = 'dark'
+          this.post.totalCurtidas = this.post.totalCurtidas - 1;
+        })
+      }
+    }
 
+  }
+
+  clickComentarios() {
+    if (this.user == undefined) {
+      this.router.navigate(['/login'])
+    }else{
+      this.router.navigate(['/view-comments', this.postId])
+    }
   }
 }

@@ -20,13 +20,31 @@
       <ion-icon *ngIf="postUrlImages.length > 1" slot="end" name="arrow-forward"></ion-icon>
     </ion-slide>
   </ion-slides>
-  <ion-item style="font-size: 11px;">
-      <ion-label>13241 curtidas</ion-label>
-      <ion-icon slot="start" name="thumbs-up">13</ion-icon>
-      <ion-label>14523 comentários</ion-label>
-      <ion-icon slot="end" name="chatboxes">13</ion-icon>
-  </ion-item> 
-  
+
+  <ion-item lines="none" style="font-size: 11px;">
+    <ion-badge  id="notifications-badge-comments">{{ post?.totalComentarios ? post.totalComentarios  : '' }}</ion-badge>
+    <ion-badge  id="notifications-badge-curtidas">{{ post?.totalCurtidas ? post.totalCurtidas : '' }}</ion-badge>
+    <ion-chip style="width: 85px" slot="start" (click)="clickIconHeart()">
+      <!-- <div style="padding-left: 47px; font-size: 0.5rem; position: absolute; padding-bottom: 20px; color: #000;font-weight: 600">
+        {{ post?.totalCurtidas ? post.totalCurtidas : '' }}
+      </div> -->
+      
+      <ion-icon name="thumbs-up" [color]="heartColor">
+          
+      </ion-icon>
+      <ion-label>{{ heartColor != 'dark' ? 'curtiu'   : 'curtir'}}</ion-label>
+    </ion-chip>
+   
+    
+    <ion-chip style="margin-left: -10px" slot="end" (click)="clickComentarios()">
+      <!-- <div style="padding-left: 80px; font-size: 0.5rem; position: absolute; padding-bottom: 20px; color: #000;font-weight: 600">
+        {{ post?.totalComentarios ? post.totalComentarios  : '' }}
+      </div> -->
+      <ion-icon name="chatboxes" color="dark"></ion-icon>
+      <ion-label>comentários</ion-label>
+    </ion-chip>
+  </ion-item>
+
   <h3>
     {{ post?.titulo }}
   </h3>
@@ -46,5 +64,6 @@
   <p style="font-size: 12px">
     {{ post?.descricao }}
   </p>
+
 
 </ion-content>

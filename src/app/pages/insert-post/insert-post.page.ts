@@ -122,7 +122,8 @@ export class InsertPostPage implements OnInit {
     await this.uploadFirebase();
     
     let formPost = this.postForm.value as Post;
-    formPost.comentarios = [];
+    formPost.totalComentarios = 0;
+    formPost.totalCurtidas = 0;
     formPost.imagens = this.filePaths;
     formPost.inativo = false;
     formPost.publicadoEm = new Date();
