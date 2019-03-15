@@ -14,6 +14,7 @@ export class Post {
     userName: string;
     situacao: string;
     publicadoEm: Date;
+    localizacao: string;
     totalComentarios: number;
     totalCurtidas: number;
 }

@@ -16,26 +16,26 @@
   <ion-slides scrollbar="false" style="height: 40%;" pager="false" [options]="slideOpts">
     <ion-slide *ngFor="let image of postUrlImages">
       <ion-icon *ngIf="postUrlImages.length > 1" slot="start" name="arrow-back"></ion-icon>
-      <img [src]="image.url">
+      <img style="max-width: 88%" [src]="image.url">
       <ion-icon *ngIf="postUrlImages.length > 1" slot="end" name="arrow-forward"></ion-icon>
     </ion-slide>
   </ion-slides>
 
   <ion-item lines="none" style="font-size: 11px;">
-    <ion-badge  id="notifications-badge-comments">{{ post?.totalComentarios ? post.totalComentarios  : '' }}</ion-badge>
-    <ion-badge  id="notifications-badge-curtidas">{{ post?.totalCurtidas ? post.totalCurtidas : '' }}</ion-badge>
+    <ion-badge id="notifications-badge-comments">{{ post?.totalComentarios ? post.totalComentarios  : '' }}</ion-badge>
+    <ion-badge id="notifications-badge-curtidas">{{ post?.totalCurtidas ? post.totalCurtidas : '' }}</ion-badge>
     <ion-chip style="width: 85px" slot="start" (click)="clickIconHeart()">
       <!-- <div style="padding-left: 47px; font-size: 0.5rem; position: absolute; padding-bottom: 20px; color: #000;font-weight: 600">
         {{ post?.totalCurtidas ? post.totalCurtidas : '' }}
       </div> -->
-      
+
       <ion-icon name="thumbs-up" [color]="heartColor">
-          
+
       </ion-icon>
       <ion-label>{{ heartColor != 'dark' ? 'curtiu'   : 'curtir'}}</ion-label>
     </ion-chip>
-   
-    
+
+
     <ion-chip style="margin-left: -10px" slot="end" (click)="clickComentarios()">
       <!-- <div style="padding-left: 80px; font-size: 0.5rem; position: absolute; padding-bottom: 20px; color: #000;font-weight: 600">
         {{ post?.totalComentarios ? post.totalComentarios  : '' }}
@@ -55,6 +55,10 @@
     <div>
       Usuário: {{post?.userName }}
     </div>
+    <div>
+      Local: {{post?.cidade }}, {{post?.localizacao }}
+    </div>
+
 
   </div>
   <p style="font-size: 15px; font-weight: 600; color:#666">

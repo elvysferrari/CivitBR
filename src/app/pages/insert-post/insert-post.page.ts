@@ -6,7 +6,8 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
-import { ToastController } from '@ionic/angular';
+import { ToastController, LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-insert-post',
@@ -22,11 +23,14 @@ export class InsertPostPage implements OnInit {
     public formBuilder: FormBuilder,
     private userService: UserService,
     private postService: PostsService,
-    public toastController: ToastController) {
+    public toastController: ToastController,
+    public loadingController: LoadingController,
+    private route: Router) {
 
       this.postForm = this.formBuilder.group({
         titulo: ['',  [Validators.required, Validators.minLength(6)]],      
-        descricao: ['', [Validators.required, Validators.maxLength(250)]],
+        descricao: ['', [Validators.required, Validators.minLength(5)]],
+        localizacao: ['', [Validators.required, Validators.minLength(5)]],
         categoria:['', [Validators.required, Validators.minLength(1)]],
         cidade:['', [Validators.required, Validators.minLength(1)]],
       });
@@ -93,7 +97,6 @@ export class InsertPostPage implements OnInit {
           this.ref = this.afStorage.ref(randomId);
           this.task = this.ref.put(this.images[i].file);
           await this.task.snapshotChanges().subscribe(a => {
-            console.log(a)
             if (a.bytesTransferred == a.totalBytes) {
               this.filesTranferreds.push(a.ref.fullPath)
             }
@@ -117,7 +120,11 @@ export class InsertPostPage implements OnInit {
   }
 
   async onSubmit(){
-    
+    const loading = await this.loadingController.create({
+      message: 'salvando',
+      showBackdrop: true
+    });
+    await loading.present();
 
     await this.uploadFirebase();
     
@@ -132,9 +139,13 @@ export class InsertPostPage implements OnInit {
     formPost.userUid = this.user.uid;
     
     if(this.postForm.valid){
-      this.postService.createPost(formPost).then((ret) => {
-       console.log('ret', ret)
+      this.postService.createPost(formPost).then(async (ret) => {
+        await loading.dismiss();
+        this.route.navigate(['/home'])
       }).catch( async (err) => {
+        await loading.dismiss();
+        this.route.navigate(['/home'])
+        
         const toast = await this.toastController.create({
           message: err,
           position: 'top',

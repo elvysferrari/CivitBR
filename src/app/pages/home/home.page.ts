@@ -1,8 +1,8 @@
 import { Post } from './../../models/post';
 import { Component } from '@angular/core';
-import { User } from 'src/app/models/user';
 import { PostsService } from 'src/app/services/posts.service';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -13,21 +13,31 @@ export class HomePage {
   postsFiltered: any[];
   posts: Post[] = [];
   showSearchBar: boolean = false;
-
+ 
   constructor(private postService: PostsService,
-              private route: Router){}
+              private route: Router,
+              public loadingController: LoadingController){}
 
-  ngOnInit(): void {
-    this.postService.getPosts().subscribe(data => {      
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'carregando',
+      showBackdrop: true
+    });
+    await loading.present();
+
+    this.postService.getPosts().subscribe(async (data) => {      
       this.postsFiltered = data.map(e => {        
         return {
           id: e.payload.doc.id,          
           ...e.payload.doc.data()
         } as Post;
       })  
+      await loading.dismiss();
+
       this.postsFiltered.sort((a: any, b: any) => {
         return a.publicadoEm > b.publicadoEm ? -1 : 1;
       });
+      
       this.postsFiltered.forEach(async (post: Post) => {        
         await this.postService.getPostImages(post.imagens).then((result) => {
           post.imagens = result;

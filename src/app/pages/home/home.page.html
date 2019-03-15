@@ -13,7 +13,6 @@
     <ion-searchbar animated *ngIf="showSearchBar" (ionCancel)="cancelSearch($event)" (ionChange)="changeSearch($event)" placeholder="Pesquisar"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
     <ion-list>
         <ion-item (click)="viewPost(post)" *ngFor="let post of postsFiltered">
@@ -24,7 +23,7 @@
             <div class="label-item-title">
                 {{post.titulo}}
             </div>
-            <div class="label-item-description">
+            <div class="label-item-date">
                 Categoria: {{post.categoria}}
             </div>
             <div class="label-item-date">
@@ -34,7 +33,7 @@
                Publicado em: {{post.publicadoEm | date:'dd/MM/yyyy HH:mm'}}
             </div>
             <div class="label-item-date">
-              {{ post.cidade }}
+              {{ post.cidade }}, {{ post.localizacao }}
            </div>
           </div>
           

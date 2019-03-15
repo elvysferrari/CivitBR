@@ -17,7 +17,8 @@ export class LoginPage implements OnInit {
     public loadingController: LoadingController,
     public userService: UserService,
     public toastController: ToastController,
-    private route: Router) {
+    private route: Router,
+    ) {
       let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       this.signinForm = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required, Validators.pattern(emailRegex)])],      
@@ -43,10 +44,16 @@ export class LoginPage implements OnInit {
     formUser.email = formUser.email.trim().toLowerCase();
     formUser.password = formUser.password.trim();
 
+    const loading = await this.loadingController.create({
+      message: 'Entrando'
+    });
+    await loading.present();
+
     if(this.signinForm.valid){
-      this.userService.loginUser(formUser).then((ret) => {
-       
+      this.userService.loginUser(formUser).then(async (ret) => {
+        await loading.dismiss();
       }).catch( async (err) => {
+        await loading.dismiss();
         const toast = await this.toastController.create({
           message: err,
           position: 'top',

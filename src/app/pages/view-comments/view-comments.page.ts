@@ -4,6 +4,9 @@ import { Comentario } from 'src/app/models/comentario';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+import { PostsService } from 'src/app/services/posts.service';
+import { Post } from 'src/app/models/post';
 
 @Component({
   selector: 'app-view-comments',
@@ -18,11 +21,23 @@ export class ViewCommentsPage implements OnInit {
 
   constructor(private userService: UserService,
     private comentarioService: ComentarioService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    public loadingController: LoadingController,
+    private postService: PostsService) {
 
     this.postId = this.route.snapshot.paramMap.get('id');
+    
+  }
+
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: 'carregando',
+      showBackdrop: true
+    });
+    await loading.present();
+
     if (this.postId) {
-      this.comentarioService.getComentarios(this.postId).subscribe(data => {
+      this.comentarioService.getComentarios(this.postId).subscribe(async (data) => {
         this.comments = data.map(e => {
           return {
             id: e.payload.doc.id,
@@ -32,11 +47,10 @@ export class ViewCommentsPage implements OnInit {
         this.comments.sort((a: any, b: any) => {
           return a.dataComentario > b.dataComentario ? -1 : 1;
         });
+        await loading.dismiss();
       })
     }
-  }
 
-  ngOnInit() {
     this.userService.getLogged().subscribe((user: User) => {
       this.user = user;
     })    
@@ -51,6 +65,15 @@ export class ViewCommentsPage implements OnInit {
     comment.postId = this.postId;
     this.comentarioService.addComentario(comment).then(() => {
       this.message = "";
+      //get post e somar + 1 comentario
+      this.postService.getPost(this.postId).then((post: Post) => {
+        console.log(post)
+        if(post){
+          post.id = this.postId;
+          post.totalComentarios =  post.totalComentarios + 1;
+          this.postService.updatePost(post);
+        }
+      })
     }, err => console.log(err))
   }
 

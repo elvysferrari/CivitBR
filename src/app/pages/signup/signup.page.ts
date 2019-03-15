@@ -32,10 +32,17 @@ export class SignupPage implements OnInit {
     formUser.email = formUser.email.trim().toLowerCase();
     formUser.password = formUser.password.trim();
 
+    const loading = await this.loadingController.create({
+      message: 'Cadastrando',
+      duration: 2000
+    });
+    await loading.present();
+
     if(this.signinUp.valid){
-      this.userService.createUser(formUser).then((ret) => {
-        console.log('signinUp', ret)
+      this.userService.createUser(formUser).then(async (ret) => {
+        await loading.dismiss();
       }).catch( async (err) => {
+        await loading.dismiss();
         const toast = await this.toastController.create({
           message: err,
           position: 'top',
