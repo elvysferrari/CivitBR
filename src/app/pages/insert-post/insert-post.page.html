@@ -8,8 +8,26 @@
 </ion-header>
 
 <ion-content padding>
-
-  <div style="display:flex; flex-direction: row" class="wrapper">
+    <ion-grid>
+        <ion-row>
+          <ion-col text-center>
+            <ion-button (click)="getImages()">Galeria</ion-button>
+          </ion-col>
+          <ion-col text-center>
+            <ion-button (click)="openCam()">Camera</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="images">
+              <div class="one-image" *ngFor="let img of imageResponse">
+                <img src="{{img}}" alt="" srcset="">
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+<!--   <div style="display:flex; flex-direction: row" class="wrapper">
     <div class="file-upload">
       <input (change)="upload($event, 0)" accept=".png,.jpg" type="file" />
       <img *ngIf="images[0].url != ''" class="img-format" [src]="getBackground(images[0].url)">
@@ -35,7 +53,7 @@
       <img *ngIf="images[4].url != ''" class="img-format" [src]="getBackground(images[4].url)">
       <img *ngIf="images[4].url == ''" class="img-format" src="assets/images/uploadphoto.png">
     </div>
-  </div>
+  </div> -->
   <ion-progress-bar [value]="uploadProgress"></ion-progress-bar>
   <br>
   <form [formGroup]="postForm" (ngSubmit)="onSubmit(); $event.preventDefault()">

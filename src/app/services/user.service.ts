@@ -117,6 +117,11 @@ export class UserService {
       title: 'Minha Conta',
       url: '/cidade-list',
       icon: 'person'
+    },
+    {
+      title: 'Camera',
+      url: '/teste',
+      icon: 'person'
     }]
   }
 
@@ -130,6 +135,11 @@ export class UserService {
     {
       title: 'Entrar',
       url: '/login',
+      icon: 'person'
+    },
+    {
+      title: 'Camera',
+      url: '/teste',
       icon: 'person'
     }]
   }

@@ -24,6 +24,11 @@ import { PostsService } from './services/posts.service';
 import { CurtidaService } from './services/curtida.service';
 import { ComentarioService } from './services/comentario.service';
 
+import { Camera } from '@ionic-native/camera/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { File } from '@ionic-native/File/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -36,6 +41,10 @@ import { ComentarioService } from './services/comentario.service';
     AngularFireStorageModule
   ],
   providers: [
+    Camera,
+    ImagePicker,
+    File,
+    FilePath,
     CurtidaService,
     ComentarioService,
     PostsService,
@@ -46,7 +55,8 @@ import { ComentarioService } from './services/comentario.service';
     PersonService,
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    
   ],
   bootstrap: [AppComponent]
 })
