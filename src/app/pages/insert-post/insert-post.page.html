@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-button (click)="getImages()">Galeria</ion-button>
-  <ion-button (click)="openCam()">Camera</ion-button>
+  <ion-button [disabled]="this.images.length >= 8" (click)="openCam()">Camera</ion-button>
 
   <ion-grid>
       <ion-row>

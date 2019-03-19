@@ -122,7 +122,7 @@ export class InsertPostPage implements OnInit {
     this.options = {
       // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
       // selection of a single image, the plugin will return it.
-      //maximumImagesCount: 3,
+      maximumImagesCount: (8 - this.images.length),
 
       // max width and height to allow the images to be.  Will keep aspect
       // ratio no matter what.  So if both are 800, the returned image
