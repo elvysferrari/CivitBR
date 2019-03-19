@@ -24,10 +24,11 @@ import { PostsService } from './services/posts.service';
 import { CurtidaService } from './services/curtida.service';
 import { ComentarioService } from './services/comentario.service';
 
-import { Camera } from '@ionic-native/camera/ngx';
+import { Camera } from '@ionic-native/Camera/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { File } from '@ionic-native/File/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,6 +46,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
     ImagePicker,
     File,
     FilePath,
+    WebView,
     CurtidaService,
     ComentarioService,
     PostsService,

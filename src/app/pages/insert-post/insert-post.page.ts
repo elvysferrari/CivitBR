@@ -9,9 +9,10 @@ import { User } from 'src/app/models/user';
 import { ToastController, LoadingController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
-import { Camera } from '@ionic-native/Camera';
+import { Camera, PictureSourceType, CameraOptions, DestinationType } from '@ionic-native/Camera/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File, FileEntry } from '@ionic-native/File/ngx'
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 @Component({
   selector: 'app-insert-post',
   templateUrl: './insert-post.page.html',
@@ -32,17 +33,19 @@ export class InsertPostPage implements OnInit {
     private imagePicker: ImagePicker,
     private file: File,
     private filePath: FilePath,
-    private platform: Platform) {
+    private platform: Platform,
+    private camera: Camera,
+    private webview: WebView) {
 
-      this.postForm = this.formBuilder.group({
-        titulo: ['',  [Validators.required, Validators.minLength(6)]],      
-        descricao: ['', [Validators.required, Validators.minLength(5)]],
-        localizacao: ['', [Validators.required, Validators.minLength(5)]],
-        categoria:['', [Validators.required, Validators.minLength(1)]],
-        cidade:['', [Validators.required, Validators.minLength(1)]],
-      });
+    this.postForm = this.formBuilder.group({
+      titulo: ['', [Validators.required, Validators.minLength(6)]],
+      descricao: ['', [Validators.required, Validators.minLength(5)]],
+      localizacao: ['', [Validators.required, Validators.minLength(5)]],
+      categoria: ['', [Validators.required, Validators.minLength(1)]],
+      cidade: ['', [Validators.required, Validators.minLength(1)]],
+    });
   }
-  
+
   imageResponse: any = [];;
   options: any;
 
@@ -54,84 +57,104 @@ export class InsertPostPage implements OnInit {
   post: Post;
   filesTranferreds: string[] = [];
   images: ImgModel[] = [{
-      id: 0,
-      name: "",
-      url: "",
-      file: undefined
-    },
-    {
-      id: 1,
-      name: "",
-      url: "",
-      file: undefined
-    },
-    {
-      id: 2,
-      name: "",
-      url: "",
-      file: undefined
-    },
-    {
-      id: 3,
-      name: "",
-      url: "",
-      file: undefined
-    },
-    {
-      id: 4,
-      name: "",
-      url: "",
-      file: undefined
-    }
+    id: 0,
+    name: "",
+    url: "",
+    file: undefined
+  },
+  {
+    id: 1,
+    name: "",
+    url: "",
+    file: undefined
+  },
+  {
+    id: 2,
+    name: "",
+    url: "",
+    file: undefined
+  },
+  {
+    id: 3,
+    name: "",
+    url: "",
+    file: undefined
+  },
+  {
+    id: 4,
+    name: "",
+    url: "",
+    file: undefined
+  }
   ];
 
-  openCam(){
-    document.addEventListener('deviceready', () => {
-      Camera.getPicture()
-        .then((data) => {
-          if (this.platform.is('android')) {
-            this.filePath.resolveNativePath(data).then(filePath => {
-              let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
-              let currentName = data.substring(data.lastIndexOf('/') + 1, data.lastIndexOf('?'));
-              
-              this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-            });
-          }else{
-            var currentName = data.substr(data.lastIndexOf('/') + 1);
-            var correctPath = data.substr(0, data.lastIndexOf('/') + 1);
-            this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
-          }
-          
-
-          //this.imageResponse.push( data);
-        })
-        .catch((e) => console.log('Error occurred while taking a picture', e));
-    });
-
+  pathForImage(img) {
+    if (img === null) {
+      return '';
+    } else {
+      let converted = this.webview.convertFileSrc(img);
+      return converted;
+    }
   }
-  createFileName() {
-    var d = new Date(),
-        n = d.getTime(),
-        newFileName = n + ".jpg";
-        alert('createFileName'+ newFileName)
-    return newFileName;
-}
- 
-copyFileToLocalDir(namePath, currentName, newFileName) {
+
+
+  copyFileToLocalDir(namePath, currentName, newFileName) {
     this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
-        //this.updateStoredImages(newFileName);
-        alert(newFileName)
-        this.imageResponse.push('data:image/jpeg;base64,' + newFileName);
+      let filePath = this.file.dataDirectory + newFileName;
+      let resPath = this.pathForImage(filePath);
+
+      this.imageResponse.push(resPath);      
     }, error => {
       alert('Error while storing file.');
     });
-}
+  }
+  takePicture(sourceType: PictureSourceType) {
+    var options: CameraOptions = {
+      quality: 100,
+      sourceType: sourceType,
+      saveToPhotoAlbum: false,
+      correctOrientation: true,
+      destinationType: DestinationType.FILE_URL
+    };
+
+
+    this.camera.getPicture(options).then(imagePath => {
+      if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+        this.filePath.resolveNativePath(imagePath)
+          .then(filePath => {
+            let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+            let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+            this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+          });
+      } else {
+        var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+        var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+        this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+      }
+
+      //alert(this.imageResponse)
+    });
+
+  }
+
+  openCam() {
+    this.takePicture(this.camera.PictureSourceType.CAMERA);
+  }
+
+  createFileName() {
+    var d = new Date(),
+      n = d.getTime(),
+      newFileName = n + ".jpg";
+    return newFileName;
+  }
+
+
   getImages() {
     this.options = {
       // Android only. Max images to be selected, defaults to 15. If this is set to 1, upon
       // selection of a single image, the plugin will return it.
       //maximumImagesCount: 3,
- 
+
       // max width and height to allow the images to be.  Will keep aspect
       // ratio no matter what.  So if both are 800, the returned image
       // will be at most 800 pixels wide and 800 pixels tall.  If the width is
@@ -139,26 +162,30 @@ copyFileToLocalDir(namePath, currentName, newFileName) {
       // is at least that wide.
       width: 480,
       //height: 200,
- 
+
       // quality of resized image, defaults to 100
       quality: 80,
- 
+
       // output type, defaults to FILE_URIs.
       // available options are 
       // window.imagePicker.OutputType.FILE_URI (0) or 
       // window.imagePicker.OutputType.BASE64_STRING (1)
-      outputType: 1
+      outputType: 0
     };
-    
+
     this.imagePicker.getPictures(this.options).then((results) => {
       for (var i = 0; i < results.length; i++) {
-        
-        this.imageResponse.push('data:image/jpeg;base64,' + results[i]);
+        var currentName = results[i].substr(results[i].lastIndexOf('/') + 1);
+        var correctPath = results[i].substr(0, results[i].lastIndexOf('/') + 1);
+        this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
+
+        //this.imageResponse.push(results[i]);
       }
     }, (err) => {
       alert(err);
     });
   }
+
   ngOnInit() {
     this.userService.getLogged().subscribe((user: User) => {
       this.user = user;
@@ -173,7 +200,7 @@ copyFileToLocalDir(namePath, currentName, newFileName) {
 
   async uploadFirebase() {
     return new Promise<boolean>(async (resolve, reject) => {
-      
+
       for (let i = 0; i < this.images.length; i++) {
         if (this.images[i].file != undefined) {
           const randomId = Math.random().toString(36).substring(2);
@@ -186,8 +213,8 @@ copyFileToLocalDir(namePath, currentName, newFileName) {
             }
             this.images[i]["progress"] = (a.bytesTransferred / a.totalBytes) * 100;
             this.uploadProgress = (a.bytesTransferred / a.totalBytes) * 100;
-  
-            if(this.uploadProgress == 100){
+
+            if (this.uploadProgress == 100) {
               resolve(true)
             }
           });
@@ -200,7 +227,7 @@ copyFileToLocalDir(namePath, currentName, newFileName) {
     return this._sanitizer.bypassSecurityTrustUrl(`${image}`);
   }
 
-  async onSubmit(){
+  async onSubmit() {
     const loading = await this.loadingController.create({
       message: 'salvando',
       showBackdrop: true
@@ -208,7 +235,7 @@ copyFileToLocalDir(namePath, currentName, newFileName) {
     await loading.present();
 
     await this.uploadFirebase();
-    
+
     let formPost = this.postForm.value as Post;
     formPost.totalComentarios = 0;
     formPost.totalCurtidas = 0;
@@ -218,15 +245,15 @@ copyFileToLocalDir(namePath, currentName, newFileName) {
     formPost.status = "Aguardando aprovação"
     formPost.userName = this.user.name;
     formPost.userUid = this.user.uid;
-    
-    if(this.postForm.valid){
+
+    if (this.postForm.valid) {
       this.postService.createPost(formPost).then(async (ret) => {
         await loading.dismiss();
         this.route.navigate(['/home'])
-      }).catch( async (err) => {
+      }).catch(async (err) => {
         await loading.dismiss();
         this.route.navigate(['/home'])
-        
+
         const toast = await this.toastController.create({
           message: err,
           position: 'top',
