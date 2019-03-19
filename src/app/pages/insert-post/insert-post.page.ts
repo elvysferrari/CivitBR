@@ -56,37 +56,7 @@ export class InsertPostPage implements OnInit {
   filePaths: string[] = [];
   post: Post;
   filesTranferreds: string[] = [];
-  images: ImgModel[] = [{
-    id: 0,
-    name: "",
-    url: "",
-    file: undefined
-  },
-  {
-    id: 1,
-    name: "",
-    url: "",
-    file: undefined
-  },
-  {
-    id: 2,
-    name: "",
-    url: "",
-    file: undefined
-  },
-  {
-    id: 3,
-    name: "",
-    url: "",
-    file: undefined
-  },
-  {
-    id: 4,
-    name: "",
-    url: "",
-    file: undefined
-  }
-  ];
+  images: ImgModel[] = [];
 
   pathForImage(img) {
     if (img === null) {
@@ -102,8 +72,7 @@ export class InsertPostPage implements OnInit {
     this.file.copyFile(namePath, currentName, this.file.dataDirectory, newFileName).then(success => {
       let filePath = this.file.dataDirectory + newFileName;
       let resPath = this.pathForImage(filePath);
-
-      this.imageResponse.push(resPath);      
+      this.images.push({ name: newFileName, url: resPath, file: undefined });      
     }, error => {
       alert('Error while storing file.');
     });
@@ -268,10 +237,9 @@ export class InsertPostPage implements OnInit {
 
 }
 
-export class ImgModel {
-  id: number;
-  url: string
-  name: string
+export class ImgModel {  
+  url: string;
+  name: string;
   file: any;
 }
 

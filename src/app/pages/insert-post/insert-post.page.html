@@ -8,18 +8,22 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-button (click)="getImages()">Galeria</ion-button>
-    <ion-button (click)="openCam()">Camera</ion-button>
-    <ion-list>
-        <ion-item *ngFor="let img of imageResponse; index as pos" text-wrap>
-            <ion-thumbnail slot="start">
-              <ion-img [src]="img"></ion-img>
-            </ion-thumbnail>
-            
-          </ion-item>
-    </ion-list>
+  <ion-button (click)="getImages()">Galeria</ion-button>
+  <ion-button (click)="openCam()">Camera</ion-button>
 
-<!--   <div style="display:flex; flex-direction: row" class="wrapper">
+  <ion-grid>
+      <ion-row>
+        <ion-col size="3" *ngFor="let img of images">
+          <ion-img class="img-format" [src]="img.url"> </ion-img>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  <!-- <ion-col *ngFor="let img of images">
+    <ion-img class="img-format" [src]="img.url"></ion-img>
+  </ion-col> -->
+
+  <!--   <div style="display:flex; flex-direction: row" class="wrapper">
     <div class="file-upload">
       <input (change)="upload($event, 0)" accept=".png,.jpg" type="file" />
       <img *ngIf="images[0].url != ''" class="img-format" [src]="getBackground(images[0].url)">
@@ -60,9 +64,9 @@
     </ion-item>
 
     <ion-item>
-        <ion-label position="stacked">Localização *</ion-label>
-        <ion-input formControlName="localizacao" placeholder="Dígite a localização"></ion-input>
-      </ion-item>
+      <ion-label position="stacked">Localização *</ion-label>
+      <ion-input formControlName="localizacao" placeholder="Dígite a localização"></ion-input>
+    </ion-item>
 
     <ion-item>
       <ion-label>Categoria *</ion-label>
@@ -73,16 +77,16 @@
     </ion-item>
 
     <ion-item>
-        <ion-label>Cidade *</ion-label>
-        <ion-select formControlName="cidade" placeholder="Selecione a categoria">
-          <ion-select-option value="Coronel Vivida">Coronel Vivida</ion-select-option>
-          <ion-select-option value="Pato Branco">Pato Branco</ion-select-option>
-        </ion-select>
-      </ion-item>
+      <ion-label>Cidade *</ion-label>
+      <ion-select formControlName="cidade" placeholder="Selecione a categoria">
+        <ion-select-option value="Coronel Vivida">Coronel Vivida</ion-select-option>
+        <ion-select-option value="Pato Branco">Pato Branco</ion-select-option>
+      </ion-select>
+    </ion-item>
 
   </form>
 
   <!-- <ion-button (click)="uploadFirebase()">Upload</ion-button> -->
-  
-  <ion-button color="tertiary" (click)="onSubmit()"  expand="full" [disabled]="postForm.invalid">CRIAR</ion-button>
+
+  <ion-button color="tertiary" (click)="onSubmit()" expand="full" [disabled]="postForm.invalid">CRIAR</ion-button>
 </ion-content>
