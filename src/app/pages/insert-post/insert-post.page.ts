@@ -25,7 +25,7 @@ export class InsertPostPage implements OnInit {
   user: User;
 
   maxImages: number = 5;
-  qualityImages: number = 70;
+  qualityImages: number = 60;
 
   constructor(private afStorage: AngularFireStorage,
     private _sanitizer: DomSanitizer,
@@ -136,6 +136,7 @@ export class InsertPostPage implements OnInit {
       // 800 and height 0 the image will be 800 pixels wide if the source
       // is at least that wide.
       width: 480,
+      
       //height: 200,
 
       // quality of resized image, defaults to 100
