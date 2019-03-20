@@ -3,7 +3,7 @@ import { Post } from './../../models/post';
 import { Component } from '@angular/core';
 import { PostsService } from 'src/app/services/posts.service';
 import { Router } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { User } from 'src/app/models/user';
 
 @Component({
@@ -22,7 +22,8 @@ export class HomePage {
               private route: Router,
               public loadingController: LoadingController,
               public userService: UserService,
-              public toastController: ToastController){}
+              public toastController: ToastController,
+              public alertController: AlertController){}
 
   
   async ngOnInit() {
@@ -38,7 +39,7 @@ export class HomePage {
           id: e.payload.doc.id,          
           ...e.payload.doc.data()
         } as Post;
-      })  
+      }).filter(x => x.inativo == false);  
       await loading.dismiss();
 
       this.postsFiltered.sort((a: any, b: any) => {
@@ -98,5 +99,31 @@ export class HomePage {
 
   viewPost(post:Post){
     this.route.navigate(['/view-post', post.id])
+  }
+
+  async deletePost(post:Post){
+    const alert = await this.alertController.create({
+      header: 'Excluir postagem',
+      message: 'Tem certeza que deseja excluir?',
+      buttons: [
+        {
+          text: 'Não',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            
+          }
+        }, {
+          text: 'Sim',
+          handler: () => {
+            post.inativo = true;
+            this.postService.updatePost(post)
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+
   }
 }

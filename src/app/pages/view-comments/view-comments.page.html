@@ -10,12 +10,22 @@
   <div class="comment-box">
     <ion-card class="cards" *ngFor="let comment of comments">
       <ion-card-content class="cards-content">
-
-        <p class="card-date" slot="start">
-          <span style="color:#5c8aec">{{ comment.userName }}</span><span> - {{ comment.dataComentario | date : 'dd/MM/yyyy HH:mm'}}</span>
-        </p>
-
-        <p style="font-size: 12px;">{{ comment.comentario }}</p>
+        <div style="display: flex; flex-direction: column">
+          <div style="display: flex; flex-direction: row; align-items: baseline; margin-top: -10px">
+            <div style="width: 95%">
+              <p class="card-date" slot="start">
+                <span style="color:#5c8aec">{{ comment.userName }}</span>
+                <span> - {{ comment.dataComentario | date : 'dd/MM/yyyy HH:mm'}}</span>
+              </p>
+            </div>
+            <div *ngIf="comment.userId == user?.uid" (click)="deleteComment(comment.id)">
+              <ion-icon style="font-size: 20px" name="close"></ion-icon>
+            </div>
+          </div>
+          <div>
+            <p style="font-size: 12px;">{{ comment.comentario }}</p>
+          </div>
+        </div>
 
       </ion-card-content>
     </ion-card>

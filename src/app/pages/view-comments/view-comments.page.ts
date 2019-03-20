@@ -4,7 +4,7 @@ import { Comentario } from 'src/app/models/comentario';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { PostsService } from 'src/app/services/posts.service';
 import { Post } from 'src/app/models/post';
 
@@ -23,10 +23,13 @@ export class ViewCommentsPage implements OnInit {
     private comentarioService: ComentarioService,
     private route: ActivatedRoute,
     public loadingController: LoadingController,
-    private postService: PostsService) {
+    private postService: PostsService,
+    public toastController: ToastController) {
 
     this.postId = this.route.snapshot.paramMap.get('id');
-    
+    this.userService.getLogged().subscribe((user: User) => {
+      this.user = user;
+    })   
   }
 
   async ngOnInit() {
@@ -51,9 +54,7 @@ export class ViewCommentsPage implements OnInit {
       })
     }
 
-    this.userService.getLogged().subscribe((user: User) => {
-      this.user = user;
-    })    
+     
   }
 
   sendComment() {
@@ -78,8 +79,14 @@ export class ViewCommentsPage implements OnInit {
   }
 
   deleteComment(commentId: string) {
-    this.comentarioService.deleteComentario(commentId).then(() => {
-      this.message = "";
+    
+    this.comentarioService.deleteComentario(commentId).then(async () => {
+      const toast = await this.toastController.create({
+        message: "Comentário deletado.",
+        position: 'top',
+        duration: 1500
+      });
+      toast.present();
     }, err => console.log(err))
   }
 }

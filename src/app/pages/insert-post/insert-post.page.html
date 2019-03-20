@@ -42,7 +42,8 @@
 
     <ion-item>
       <ion-label class="labels" position="stacked">Descrição *</ion-label>
-      <ion-input class="labels" formControlName="descricao" placeholder="Dígite uma descrição"></ion-input>
+      <!-- <ion-input class="labels" formControlName="descricao" placeholder="Dígite uma descrição"></ion-input> -->
+      <ion-textarea class="labels" color="medium" formControlName="descricao" type="text" placeholder="Dígite uma descrição"></ion-textarea>
     </ion-item>
 
     <ion-item>
@@ -53,7 +54,7 @@
     <ion-item class="labels">
       <ion-label>Departamento *</ion-label>
       <ion-select class="labels" formControlName="departamento" placeholder="Selecione o departamento">
-        <ion-select-option *ngFor="let departamento of departamentos" value="departamento.nome">{{ departamento.nome }}</ion-select-option>        
+        <ion-select-option *ngFor="let departamento of departamentos" [value]="departamento.nome">{{ departamento.nome }}</ion-select-option>        
       </ion-select>
     </ion-item>
 

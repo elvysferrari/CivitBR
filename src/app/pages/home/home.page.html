@@ -14,11 +14,11 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>  
+  <ion-list>
     <div style="padding-left: 10px; display: flex; flex-direction: row">
       <div>
         <ion-chip (click)="clickFilterPosts('all')" [color]="filterPosts == 'all' ? 'primary' : 'medium'">
-          <ion-icon  name="paper"></ion-icon>
+          <ion-icon name="paper"></ion-icon>
           <ion-label>Todas postagens</ion-label>
         </ion-chip>
       </div>
@@ -30,28 +30,37 @@
       </div>
     </div>
 
-    <ion-item (click)="viewPost(post)" *ngFor="let post of postsFiltered">
-      <ion-thumbnail style="width: 100px; height: 100px;" slot="start">
+    <ion-item style="padding-top: 10px" *ngFor="let post of postsFiltered">
+      <ion-thumbnail (click)="viewPost(post)" style="width: 100px; height: 100px;" slot="start">
         <ion-img [src]="post.imagens[0]?.url != undefined ? post.imagens[0].url : 'assets/images/noimage.png'">
         </ion-img>
       </ion-thumbnail>
-      <div style="display: flex; flex-direction: column">
-        <div class="label-item-title">
-          {{post.titulo}}
+      <div style="display: flex; flex-direction: column; width: 100%">
+        <div style="display: flex; flex-direction: column">
+          <div (click)="viewPost(post)" style="width: 91%" class="label-item-title">
+            {{post.titulo}}
+          </div>
+          <div (click)="deletePost(post)" *ngIf="post.userUid == user?.uid">
+            <ion-chip color="primary" outline="true" style="height: 22px; font-size: 12px">
+              <ion-icon style="font-size: 20px" name="close"></ion-icon>
+              <ion-label>Excluir postagem</ion-label>
+            </ion-chip>
+          </div>
         </div>
-        <div class="label-item-date">
+
+        <div (click)="viewPost(post)" class="label-item-date">
           Departamento: {{post.departamento}}
         </div>
-        <div class="label-item-date">
+        <div (click)="viewPost(post)" class="label-item-date">
           Situação: {{ post.situacao ? post.situacao : 'Pendente' }}
         </div>
-        <div class="label-item-date">
+        <div (click)="viewPost(post)" class="label-item-date">
           Publicado em: {{post.publicadoEm | date:'dd/MM/yyyy HH:mm'}}
         </div>
-        <div class="label-item-date">
+        <div (click)="viewPost(post)" class="label-item-date">
           {{ post.cidade }}, {{ post.localizacao }}
         </div>
-        <div class="label-item-date">
+        <div (click)="viewPost(post)" class="label-item-date">
           <div style="display: flex; flex-direction: row">
             <ion-label>
               <ion-icon name="thumbs-up"></ion-icon>{{ post.totalCurtidas }}&nbsp;&nbsp;
