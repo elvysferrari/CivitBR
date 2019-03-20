@@ -90,6 +90,7 @@ export class ViewPostPage implements OnInit {
   }
 
   clickIconHeart() {
+    
     if(this.enableIconHeart){
       this.enableIconHeart = false;
       if (this.user == undefined) {

@@ -11,10 +11,18 @@ export class CurtidaService {
 
   public getCurtidas(postId: string){
     return new Promise<Curtida[]>((resolve, reject) => {
-      this.firestore.collection("curtidas",ref => ref.where('postId', '==', postId)).valueChanges().subscribe((collection) => {     
-        if(collection){                  
-          resolve(collection as Curtida[]);   
-        }      
+      this.firestore.collection("curtidas",ref => ref.where('postId', '==', postId)).snapshotChanges().subscribe((collection) => {     
+        let curtidas: Curtida[];
+        curtidas = collection.map(e => {        
+          return {
+            id: e.payload.doc.id,          
+            ...e.payload.doc.data()
+          } as Curtida;
+        }) 
+        if(curtidas){
+          resolve(curtidas);  
+        }
+             
       }, err => reject(err))
     })    
   }
