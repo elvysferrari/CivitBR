@@ -1,47 +1,58 @@
 <ion-header>
   <ion-toolbar color="tertiary">
     <ion-buttons slot="start">
-      <ion-menu-button ></ion-menu-button>       
-          
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-buttons slot="end"> 
-        <ion-button (click)="clickIconSearchBar()">
-            <ion-icon slot="icon-only" name="search"></ion-icon>
-          </ion-button> 
+    <ion-buttons slot="end">
+      <ion-button (click)="clickIconSearchBar()">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    
-    <ion-searchbar animated *ngIf="showSearchBar" (ionCancel)="cancelSearch($event)" (ionChange)="changeSearch($event)" placeholder="Pesquisar"></ion-searchbar>
+    <ion-title style="text-align: center">CivitBR</ion-title>
+    <ion-searchbar animated *ngIf="showSearchBar" (ionCancel)="cancelSearch($event)" (ionChange)="changeSearch($event)"
+      placeholder="Pesquisar"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ion-list>
-        <ion-item (click)="viewPost(post)" *ngFor="let post of postsFiltered">
-          <ion-thumbnail style="width: 100px; height: 100px;" slot="start">
-            <ion-img [src]="post.imagens[0]?.url != undefined ? post.imagens[0].url : 'assets/images/noimage.png'"></ion-img>
-          </ion-thumbnail>
-          <div style="display: flex; flex-direction: column">
-            <div class="label-item-title">
-                {{post.titulo}}
-            </div>
-            <div class="label-item-date">
-                Departamento: {{post.departamento}}
-            </div>
-            <div class="label-item-date">
-                Situação: {{ post.situacao ? post.situacao : 'Pendente' }}
-             </div>
-            <div class="label-item-date">
-               Publicado em: {{post.publicadoEm | date:'dd/MM/yyyy HH:mm'}}
-            </div>
-            <div class="label-item-date">
-              {{ post.cidade }}, {{ post.localizacao }}
-           </div>
+  <ion-list>
+    <ion-item (click)="viewPost(post)" *ngFor="let post of postsFiltered">
+      <ion-thumbnail style="width: 100px; height: 100px;" slot="start">
+        <ion-img [src]="post.imagens[0]?.url != undefined ? post.imagens[0].url : 'assets/images/noimage.png'">
+        </ion-img>
+      </ion-thumbnail>
+      <div style="display: flex; flex-direction: column">
+        <div class="label-item-title">
+          {{post.titulo}}
+        </div>
+        <div class="label-item-date">
+          Departamento: {{post.departamento}}
+        </div>
+        <div class="label-item-date">
+          Situação: {{ post.situacao ? post.situacao : 'Pendente' }}
+        </div>
+        <div class="label-item-date">
+          Publicado em: {{post.publicadoEm | date:'dd/MM/yyyy HH:mm'}}
+        </div>
+        <div class="label-item-date">
+          {{ post.cidade }}, {{ post.localizacao }}
+        </div>
+        <div class="label-item-date">
+          <div style="display: flex; flex-direction: row">
+            <ion-label>
+              <ion-icon name="thumbs-up"></ion-icon>{{ post.totalCurtidas }}&nbsp;&nbsp;
+            </ion-label>
+            <ion-label>
+              <ion-icon name="chatboxes"></ion-icon>{{ post.totalComentarios }}
+            </ion-label>
           </div>
-          
-        </ion-item>
-      </ion-list>
 
-    <ion-card>
-        
-      </ion-card>
+        </div>
+      </div>
+
+    </ion-item>
+  </ion-list>
+
+  <ion-card>
+
+  </ion-card>
 </ion-content>
- 

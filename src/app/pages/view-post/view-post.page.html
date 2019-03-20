@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="clickFavorito()">
-        <ion-icon slot="icon-only" name="heart-empty"></ion-icon>
+        <ion-icon slot="icon-only" [name]="isFavorito"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>{{ post?.titulo }}</ion-title>

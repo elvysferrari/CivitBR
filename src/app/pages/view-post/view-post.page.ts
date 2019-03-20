@@ -24,6 +24,9 @@ export class ViewPostPage implements OnInit {
 
   curtiu: Curtida;
   heartColor: string = 'dark'
+
+  isFavorito = "heart-empty";
+
   slideOpts = {
     effect: 'flip'
   };
@@ -75,6 +78,14 @@ export class ViewPostPage implements OnInit {
 
     this.userService.getLogged().subscribe((user: User) => {
       this.user = user;
+      if(this.user){
+        if(this.user.postFavoritos){
+          let index = this.user.postFavoritos.find(x => x == this.postId);
+          if(index){
+            this.isFavorito = "heart";
+          }
+        }
+      }
     })
   }
 
@@ -96,6 +107,14 @@ export class ViewPostPage implements OnInit {
             this.heartColor = 'primary'
             this.post.totalCurtidas = this.post.totalCurtidas + 1;
             this.enableIconHeart = true;
+
+            this.postService.getPost(this.postId).then((post: Post) => {              
+              if(post){
+                post.id = this.postId;
+                post.totalCurtidas =  post.totalCurtidas + 1;
+                this.postService.updatePost(post);
+              }
+            })
           })
         } else {
           this.curtidaService.deleteCurtidas(this.curtiu.id).then(() => {
@@ -103,6 +122,13 @@ export class ViewPostPage implements OnInit {
             this.heartColor = 'dark'
             this.post.totalCurtidas = this.post.totalCurtidas - 1;
             this.enableIconHeart = true;
+            this.postService.getPost(this.postId).then((post: Post) => {              
+              if(post){
+                post.id = this.postId;
+                post.totalCurtidas =  post.totalCurtidas - 1;
+                this.postService.updatePost(post);
+              }
+            })
           })
         }
       }
@@ -119,9 +145,11 @@ export class ViewPostPage implements OnInit {
       }
       let exist = this.user.postFavoritos.find(x => x == this.postId)
       if(!exist){
-        this.user.postFavoritos.push(this.postId);        
+        this.user.postFavoritos.push(this.postId);  
+        this.isFavorito = "heart"      
       }else{
         this.user.postFavoritos.splice(this.user.postFavoritos.indexOf(exist), 1);
+        this.isFavorito = "heart-empty"  
       }
             
       this.userService.updateUserFavoritos(this.user, this.user.postFavoritos);
