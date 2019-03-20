@@ -23,7 +23,8 @@ const routes: Routes = [
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   { path: 'view-post/:id', loadChildren: './pages/view-post/view-post.module#ViewPostPageModule' },
   { path: 'insert-post', loadChildren: './pages/insert-post/insert-post.module#InsertPostPageModule' },
-  { path: 'view-comments/:id', loadChildren: './pages/view-comments/view-comments.module#ViewCommentsPageModule' },  { path: 'teste', loadChildren: './pages/teste/teste.module#TestePageModule' }
+  { path: 'view-comments/:id', loadChildren: './pages/view-comments/view-comments.module#ViewCommentsPageModule' },  { path: 'teste', loadChildren: './pages/teste/teste.module#TestePageModule' },
+  { path: 'favoritos', loadChildren: './pages/favoritos/favoritos.module#FavoritosPageModule' }
 
 
 

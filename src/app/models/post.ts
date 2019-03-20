@@ -6,7 +6,7 @@ export class Post {
     imagens: string[];
     titulo: string;
     descricao: string;
-    categoria: string;
+    departamento: string;
     cidade: string;
     inativo: boolean;
     status: string;

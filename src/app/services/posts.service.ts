@@ -29,6 +29,27 @@ export class PostsService {
     })
   }
 
+  getPostFavoritos(ids: string[]){
+    return new Promise((resolve, reject) => {
+      let i = 1;
+      let posts: any[] = [];
+      ids.forEach(id => {
+        this.firestore.collection("posts").doc(id).valueChanges().subscribe((collection) => {
+          if (collection) {
+            collection['id'] = id;
+            posts.push(collection)            
+          }
+        })
+
+        if(i == ids.length){
+          resolve(posts);
+        }else{
+          i++;
+        }
+      })    
+    })
+  }
+
   getPostImages(ids: string[]) {
     return new Promise<any[]>(async (resolve, reject) => {
       let index = 1;
@@ -51,5 +72,44 @@ export class PostsService {
   updatePost(post: Post){
     //delete post.id;
     this.firestore.doc('posts/' + post.id).update(post);
+  }
+
+  getDepartamentos(){
+    return [{
+      nome: "Serviços Públicos"
+    },
+    {
+      nome: "Obras"
+    },
+    {
+      nome: "Saneamento"
+    },    
+    {
+      nome: "Rural"
+    },
+    {
+      nome: "Educação"
+    },
+    {
+      nome: "Saúde"
+    },
+    {
+      nome: "Transportes"
+    },
+    {
+      nome: "Meio Ambiente"
+    },
+    {
+      nome: "Assistência Social"
+    },
+    {
+      nome: "Geral"
+    }]
+  }
+
+  getSituacoes(){
+    return [{
+      nome: ""
+    }]
   }
 }

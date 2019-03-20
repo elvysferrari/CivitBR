@@ -58,7 +58,16 @@ export class AppComponent {
   }
 
   navigateTo(url){
-    this.route.navigate([url])
+    if(url == "/insert-post"){
+      if(this.user){
+        this.route.navigate([url])
+      }else{
+        this.route.navigate(['/login'])
+      }
+    }else{
+      this.route.navigate([url])
+    }
+    
   }
   
 }

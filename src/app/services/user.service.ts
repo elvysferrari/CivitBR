@@ -19,10 +19,19 @@ export class UserService {
 
   public setUserByUid(uid: string){
     return new Promise((resolve, reject) => {
-      this.firestore.collection("users",ref => ref.where('uid', '==', uid)).valueChanges().subscribe((collection) => {     
-        if(collection){        
-          this.login(collection[0] as User)     
-          resolve(collection[0]);   
+      this.firestore.collection("users",ref => ref.where('uid', '==', uid)).snapshotChanges().subscribe((collection) => {     
+        let users: User[];
+        
+        users = collection.map(e => {        
+          return {
+            id: e.payload.doc.id,          
+            ...e.payload.doc.data()
+          } as User;
+        }) 
+              
+        if(users){        
+          this.login(users[0] as User)     
+          resolve(users[0]);   
         }      
       }, err => reject(err))
     })
@@ -110,17 +119,12 @@ export class UserService {
     },    
     {
       title: 'Favoritos',
-      url: '/cidade-list',
+      url: '/favoritos',
       icon: 'heart'
     },
     {
       title: 'Minha Conta',
       url: '/cidade-list',
-      icon: 'person'
-    },
-    {
-      title: 'Camera',
-      url: '/teste',
       icon: 'person'
     }]
   }
@@ -131,17 +135,22 @@ export class UserService {
       title: 'Postagens',
       url: '/home',
       icon: 'paper'
+    },  
+    {
+      title: 'Inserir Postagem',
+      url: '/insert-post',
+      icon: 'create'
     },
     {
       title: 'Entrar',
       url: '/login',
       icon: 'person'
-    },
-    {
-      title: 'Camera',
-      url: '/teste',
-      icon: 'person'
     }]
+  }
+  updateUserFavoritos(user: User, favoritos: string[]){
+    //delete post.id;
+    this.firestore.doc('users/' + user.id).update(user);
+    //this.login(user)
   }
 
 }

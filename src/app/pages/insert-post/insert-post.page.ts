@@ -47,7 +47,7 @@ export class InsertPostPage implements OnInit {
       titulo: ['', [Validators.required, Validators.minLength(6)]],
       descricao: ['', [Validators.required, Validators.minLength(5)]],
       localizacao: ['', [Validators.required, Validators.minLength(5)]],
-      categoria: ['', [Validators.required, Validators.minLength(1)]],
+      departamento: ['', [Validators.required, Validators.minLength(1)]],
       cidade: ['', [Validators.required, Validators.minLength(1)]],
     });
   }
@@ -63,6 +63,7 @@ export class InsertPostPage implements OnInit {
   post: Post;
   filesTranferreds: string[] = [];
   images: ImgModel[] = [];
+  departamentos: any[] = [];
 
   pathForImage(img) {
     if (img === null) {
@@ -80,7 +81,7 @@ export class InsertPostPage implements OnInit {
       let resPath = this.pathForImage(filePath);
       this.images.unshift({ name: newFileName, url: resPath, file: filePath });
     }, error => {
-      alert('Error while storing file.');
+      
     });
   }
   takePicture(sourceType: PictureSourceType) {
@@ -107,7 +108,6 @@ export class InsertPostPage implements OnInit {
         this.copyFileToLocalDir(correctPath, currentName, this.createFileName());
       }
 
-      //alert(this.imageResponse)
     });
 
   }
@@ -158,7 +158,7 @@ export class InsertPostPage implements OnInit {
         //this.imageResponse.push(results[i]);
       }
     }, (err) => {
-      alert(err);
+      
     });
   }
 
@@ -167,6 +167,13 @@ export class InsertPostPage implements OnInit {
       this.user = user;
     })
 
+    this.departamentos = this.postService.getDepartamentos();
+/* 
+    this.images.push({file: '', name: '', url:"assets/images/print1.png"})
+    this.images.push({file: '', name: '', url:"assets/images/profile.jpg"})
+    this.images.push({file: '', name: '', url:"assets/images/profile.jpg"})
+    this.images.push({file: '', name: '', url:"assets/images/noimage.png"}) */
+    
   }
 
   removePicture(img: ImgModel) {

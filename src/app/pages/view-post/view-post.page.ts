@@ -110,7 +110,23 @@ export class ViewPostPage implements OnInit {
     
 
   }
-
+  clickFavorito(){
+    if (this.user == undefined) {
+      this.router.navigate(['/login'])
+    }else{
+      if(this.user.postFavoritos == undefined){
+        this.user.postFavoritos = [];
+      }
+      let exist = this.user.postFavoritos.find(x => x == this.postId)
+      if(!exist){
+        this.user.postFavoritos.push(this.postId);        
+      }else{
+        this.user.postFavoritos.splice(this.user.postFavoritos.indexOf(exist), 1);
+      }
+            
+      this.userService.updateUserFavoritos(this.user, this.user.postFavoritos);
+    }
+  }
   clickComentarios() {
     if (this.user == undefined) {
       this.router.navigate(['/login'])

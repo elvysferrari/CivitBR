@@ -14,11 +14,11 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col (click)="selectPhotoType()" align-self-center size="4">
-        <ion-img style="padding-top: 11px; border-radius: 15%;" class="img-format" src="assets/images/uploadphoto.png"> </ion-img>
-        <ion-label style="font-size: 12px; padding-left: 17px">
+      <ion-col style="padding-top: 17px;" (click)="selectPhotoType()" align-self-center size="4">
+        <ion-img style="padding-top: 11px; border-radius: 15%; height: 87px; widows: 90px;" src="assets/images/addphoto.png"> </ion-img>
+        <!-- <ion-label style="font-size: 12px; padding-left: 17px">
           Máx. 5
-        </ion-label>
+        </ion-label> -->
       </ion-col>
       <ion-col align-self-center size="4" *ngFor="let img of images">
         <ion-icon (click)="removePicture(img)" style="font-size: 22px;padding-left: 58px" color="danger" name="close"></ion-icon>
@@ -36,31 +36,30 @@
     </ion-item> -->
 
     <ion-item>
-      <ion-label position="stacked">Título *</ion-label>
-      <ion-input formControlName="titulo" placeholder="Dígite um título"></ion-input>
+      <ion-label class="labels" position="stacked">Título *</ion-label>
+      <ion-input class="labels" formControlName="titulo" placeholder="Dígite um título"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Descrição *</ion-label>
-      <ion-input formControlName="descricao" placeholder="Dígite uma descrição"></ion-input>
+      <ion-label class="labels" position="stacked">Descrição *</ion-label>
+      <ion-input class="labels" formControlName="descricao" placeholder="Dígite uma descrição"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Localização *</ion-label>
-      <ion-input formControlName="localizacao" placeholder="Dígite a localização"></ion-input>
+      <ion-label class="labels" position="stacked">Localização *</ion-label>
+      <ion-input class="labels" formControlName="localizacao" placeholder="Dígite a localização"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Categoria *</ion-label>
-      <ion-select formControlName="categoria" placeholder="Selecione a categoria">
-        <ion-select-option value="Rua">Rua</ion-select-option>
-        <ion-select-option value="Interior">Interior</ion-select-option>
+    <ion-item class="labels">
+      <ion-label>Departamento *</ion-label>
+      <ion-select class="labels" formControlName="departamento" placeholder="Selecione o departamento">
+        <ion-select-option *ngFor="let departamento of departamentos" value="departamento.nome">{{ departamento.nome }}</ion-select-option>        
       </ion-select>
     </ion-item>
 
-    <ion-item>
-      <ion-label>Cidade *</ion-label>
-      <ion-select formControlName="cidade" placeholder="Selecione a categoria">
+    <ion-item class="labels">
+      <ion-label >Cidade *</ion-label>
+      <ion-select class="labels" formControlName="cidade" placeholder="Selecione a cidade">
         <ion-select-option value="Coronel Vivida">Coronel Vivida</ion-select-option>
         <ion-select-option value="Pato Branco">Pato Branco</ion-select-option>
       </ion-select>
