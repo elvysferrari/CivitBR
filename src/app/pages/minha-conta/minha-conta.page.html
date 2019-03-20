@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Minha conta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-avatar style="width: 100px; height: 100px;">
+        <img src="assets/images/profile.jpg">
+      </ion-avatar>
+      <ion-label class="labels" position="stacked">Nome</ion-label>
+      <ion-input [(ngModel)]="user.name" class="labels" placeholder="Dígite seu nome"></ion-input>
+    </ion-item>    
+    <ion-item>
+      <ion-label>Redefinir senha</ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

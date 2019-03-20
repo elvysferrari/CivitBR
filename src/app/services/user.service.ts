@@ -124,7 +124,7 @@ export class UserService {
     },
     {
       title: 'Minha Conta',
-      url: '/cidade-list',
+      url: '/minha-conta',
       icon: 'person'
     }]
   }
