@@ -17,7 +17,7 @@
     <ion-list>
         <ion-item (click)="viewPost(post)" *ngFor="let post of postsFiltered">
           <ion-thumbnail style="width: 100px; height: 100px;" slot="start">
-            <ion-img [src]="post.imagens[0].url != undefined ? post.imagens[0].url : 'assets/images/noimage.png'"></ion-img>
+            <ion-img [src]="post.imagens[0]?.url != undefined ? post.imagens[0].url : 'assets/images/noimage.png'"></ion-img>
           </ion-thumbnail>
           <div style="display: flex; flex-direction: column">
             <div class="label-item-title">

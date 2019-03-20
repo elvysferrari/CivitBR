@@ -8,51 +8,33 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-button (click)="getImages()">Galeria</ion-button>
-  <ion-button [disabled]="this.images.length >= 8" (click)="openCam()">Camera</ion-button>
+  <!-- <ion-button [disabled]="this.images.length >= 6" (click)="getImages()">Galeria</ion-button>
+  <ion-button [disabled]="this.images.length >= 6" (click)="openCam()">Camera</ion-button>
+ -->
 
   <ion-grid>
-      <ion-row>
-        <ion-col size="3" *ngFor="let img of images">
-          <ion-img class="img-format" [src]="img.url"> </ion-img>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-row>
+      <ion-col (click)="selectPhotoType()" align-self-center size="4">
+        <ion-img style="padding-top: 11px; border-radius: 15%;" class="img-format" src="assets/images/uploadphoto.png"> </ion-img>
+        <ion-label style="font-size: 12px; padding-left: 17px">
+          Máx. 5
+        </ion-label>
+      </ion-col>
+      <ion-col align-self-center size="4" *ngFor="let img of images">
+        <ion-icon (click)="removePicture(img)" style="font-size: 22px;padding-left: 58px" color="danger" name="close"></ion-icon>
+        <ion-img class="img-format" [src]="img.url"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <!-- <ion-col *ngFor="let img of images">
-    <ion-img class="img-format" [src]="img.url"></ion-img>
-  </ion-col> -->
-
-  <!--   <div style="display:flex; flex-direction: row" class="wrapper">
-    <div class="file-upload">
-      <input (change)="upload($event, 0)" accept=".png,.jpg" type="file" />
-      <img *ngIf="images[0].url != ''" class="img-format" [src]="getBackground(images[0].url)">
-      <img *ngIf="images[0].url == ''" class="img-format" src="assets/images/uploadphoto.png">
-    </div>
-    <div class="file-upload">
-      <input (change)="upload($event, 1)" accept=".png,.jpg" type="file" />
-      <img *ngIf="images[1].url != ''" class="img-format" [src]="getBackground(images[1].url)">
-      <img *ngIf="images[1].url == ''" class="img-format" src="assets/images/uploadphoto.png">
-    </div>
-    <div class="file-upload">
-      <input (change)="upload($event, 2)" accept=".png,.jpg" type="file" />
-      <img *ngIf="images[2].url != ''" class="img-format" [src]="getBackground(images[2].url)">
-      <img *ngIf="images[2].url == ''" class="img-format" src="assets/images/uploadphoto.png">
-    </div>
-    <div class="file-upload">
-      <input (change)="upload($event, 3)" accept=".png,.jpg" type="file" />
-      <img *ngIf="images[3].url != ''" class="img-format" [src]="getBackground(images[3].url)">
-      <img *ngIf="images[3].url == ''" class="img-format" src="assets/images/uploadphoto.png">
-    </div>
-    <div class="file-upload">
-      <input (change)="upload($event, 4)" accept=".png,.jpg" type="file" />
-      <img *ngIf="images[4].url != ''" class="img-format" [src]="getBackground(images[4].url)">
-      <img *ngIf="images[4].url == ''" class="img-format" src="assets/images/uploadphoto.png">
-    </div>
-  </div> -->
-  <ion-progress-bar [value]="uploadProgress"></ion-progress-bar>
-  <br>
   <form [formGroup]="postForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+    <!-- <ion-item>
+      <ion-chip slot="end">
+        <ion-icon name="camera" color="primary"></ion-icon>
+        <ion-label>Fotos</ion-label>
+      </ion-chip>
+    </ion-item> -->
+
     <ion-item>
       <ion-label position="stacked">Título *</ion-label>
       <ion-input formControlName="titulo" placeholder="Dígite um título"></ion-input>
@@ -88,5 +70,8 @@
 
   <!-- <ion-button (click)="uploadFirebase()">Upload</ion-button> -->
 
+  <!--  <ion-progress-bar [value]="uploadProgress"></ion-progress-bar>
+  <br> -->
   <ion-button color="tertiary" (click)="onSubmit()" expand="full" [disabled]="postForm.invalid">CRIAR</ion-button>
+ 
 </ion-content>

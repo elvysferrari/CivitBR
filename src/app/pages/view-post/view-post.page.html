@@ -13,7 +13,7 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-slides scrollbar="false" style="height: 40%;" pager="false" [options]="slideOpts">
+  <ion-slides scrollbar="false" style="height: 60%;" pager="false" [options]="slideOpts">
     <ion-slide *ngFor="let image of postUrlImages">
       <ion-icon *ngIf="postUrlImages.length > 1" slot="start" name="arrow-back"></ion-icon>
       <img style="max-width: 88%" [src]="image.url">
