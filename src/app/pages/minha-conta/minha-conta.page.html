@@ -15,10 +15,16 @@
       </ion-avatar>
       <ion-label class="labels" position="stacked">Nome</ion-label>
       <ion-input [(ngModel)]="user.name" class="labels" placeholder="Dígite seu nome"></ion-input>
-    </ion-item>    
-    <ion-item>
+    </ion-item>
+    <ion-item (click)="redefinirSenha()">
       <ion-label>Redefinir senha</ion-label>
+      <ion-icon name="mail"  slot="start"></ion-icon>
+    </ion-item>
+    <ion-item (click)="logout()">
+      <ion-label>Sair da conta</ion-label>
+      <ion-icon name="exit"  slot="start"></ion-icon>
     </ion-item>
   </ion-list>
-
+  <ion-button shape="round" (click)="onSubmit()" [disabled]="user.name == ''" expand="full" color="primary">Salvar</ion-button>
+ 
 </ion-content>
