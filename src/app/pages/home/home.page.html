@@ -14,7 +14,22 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>
+  <ion-list>  
+    <div style="padding-left: 10px; display: flex; flex-direction: row">
+      <div>
+        <ion-chip (click)="clickFilterPosts('all')" [color]="filterPosts == 'all' ? 'primary' : 'medium'">
+          <ion-icon  name="paper"></ion-icon>
+          <ion-label>Todas postagens</ion-label>
+        </ion-chip>
+      </div>
+      <div>
+        <ion-chip (click)="clickFilterPosts('my')" [color]="filterPosts == 'my' ? 'primary' : 'medium'">
+          <ion-icon name="funnel"></ion-icon>
+          <ion-label>Minhas postagens</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+
     <ion-item (click)="viewPost(post)" *ngFor="let post of postsFiltered">
       <ion-thumbnail style="width: 100px; height: 100px;" slot="start">
         <ion-img [src]="post.imagens[0]?.url != undefined ? post.imagens[0].url : 'assets/images/noimage.png'">

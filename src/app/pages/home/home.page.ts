@@ -1,8 +1,10 @@
+import { UserService } from 'src/app/services/user.service';
 import { Post } from './../../models/post';
 import { Component } from '@angular/core';
 import { PostsService } from 'src/app/services/posts.service';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +15,16 @@ export class HomePage {
   postsFiltered: any[];
   posts: Post[] = [];
   showSearchBar: boolean = false;
- 
+  user: User;
+
+  filterPosts: string = 'all';
   constructor(private postService: PostsService,
               private route: Router,
-              public loadingController: LoadingController){}
+              public loadingController: LoadingController,
+              public userService: UserService,
+              public toastController: ToastController){}
 
+  
   async ngOnInit() {
     const loading = await this.loadingController.create({
       message: 'carregando',
@@ -44,9 +51,34 @@ export class HomePage {
         })
       }) 
       this.posts = this.postsFiltered
-    })    
+    }) 
+    this.userService.getLogged().subscribe(async (user: User) => {
+      this.user = user;
+    })   
   }
-  
+
+  async clickFilterPosts(filter: string){
+    if(this.filterPosts != filter){
+      if(filter=="all"){
+        this.postsFiltered = this.posts;
+        this.filterPosts = filter;
+      }else{
+        if(this.user){
+          this.postsFiltered = this.posts.filter(x => x.userUid == this.user.uid);
+          this.filterPosts = filter;
+        }else{
+          const toast = await this.toastController.create({
+            message: "Você precisar entrar para ver suas postagens.",
+            position: 'top',
+            duration: 3000
+          });
+          toast.present();
+        }
+        
+      }
+    }
+    
+  }
   changeSearch(evt) {
     if (evt.detail.value == "") {
       this.postsFiltered = this.posts;
