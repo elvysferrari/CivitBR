@@ -12,7 +12,7 @@
     <ion-item style="padding-left: 30%" lines="none">
       <ion-avatar [ngStyle]="{'background-color' : user.image != undefined ? 'transparent' : '#826fc2'}"
         style="width: 100px; height: 100px;">
-        <img [src]="user.image != undefined ? user.image.url : 'assets/images/noavatar.png'">
+        <img [src]="user.image.storagePath">
       </ion-avatar>
       
     </ion-item>

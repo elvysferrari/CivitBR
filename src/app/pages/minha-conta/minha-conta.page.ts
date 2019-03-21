@@ -249,22 +249,23 @@ export class MinhaContaPage implements OnInit {
       return new Promise<boolean>(async (resolve, reject) => {
       
         if (this.user.image != undefined) {
-          const loading = await this.loadingController.create({
-            message: 'salvando',
-            showBackdrop: true
-          });
-          await loading.present();
+          
 
           await this.startUpload(this.user.image).then(async (imageFile: Blob) => {
             const randomId = Math.random().toString(36).substring(2);
-           
+            const loading = await this.loadingController.create({
+              message: 'salvando',
+              showBackdrop: true
+            });
+            await loading.present();
+
             this.refDB = this.afStorage.ref(randomId);
             
             this.refDB.put(imageFile);     
             
             setTimeout(() => {
               this.userService.getUserImage(randomId).then(async (url) =>{
-                this.user['image'].storagePath = url;
+                this.user.image.storagePath = url;
                 
                 this.userService.updateUser(this.user);
                 await loading.dismiss();
