@@ -40,12 +40,7 @@
           <div (click)="viewPost(post)" style="width: 91%" class="label-item-title">
             {{post.titulo}}
           </div>
-          <div (click)="deletePost(post)" *ngIf="post.userUid == user?.uid">
-            <ion-chip color="primary" outline="true" style="height: 22px; font-size: 12px">
-              <ion-icon style="font-size: 20px" name="close"></ion-icon>
-              <ion-label>Excluir postagem</ion-label>
-            </ion-chip>
-          </div>
+
         </div>
 
         <div (click)="viewPost(post)" class="label-item-date">
@@ -60,7 +55,7 @@
         <div (click)="viewPost(post)" class="label-item-date">
           {{ post.cidade }}, {{ post.localizacao }}
         </div>
-        <div (click)="viewPost(post)" class="label-item-date">
+        <div class="label-item-date">
           <div style="display: flex; flex-direction: row">
             <ion-label>
               <ion-icon name="thumbs-up"></ion-icon>{{ post.totalCurtidas }}&nbsp;&nbsp;
@@ -68,11 +63,15 @@
             <ion-label>
               <ion-icon name="chatboxes"></ion-icon>{{ post.totalComentarios }}
             </ion-label>
+            <div style="margin-top: -8px" (click)="deletePost(post)" *ngIf="post.userUid == user?.uid && filterPosts == 'my'">
+              <ion-chip color="danger" outline="true" style="height: 22px; font-size: 12px">
+                <ion-icon style="font-size: 20px" name="close"></ion-icon>
+                <ion-label>Excluir</ion-label>
+              </ion-chip>
+            </div>
           </div>
-
         </div>
       </div>
-
     </ion-item>
   </ion-list>
 
