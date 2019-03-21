@@ -249,6 +249,11 @@ export class MinhaContaPage implements OnInit {
       return new Promise<boolean>(async (resolve, reject) => {
       
         if (this.user.image != undefined) {
+          const loading = await this.loadingController.create({
+            message: 'salvando',
+            showBackdrop: true
+          });
+          await loading.present();
 
           await this.startUpload(this.user.image).then(async (imageFile: Blob) => {
             const randomId = Math.random().toString(36).substring(2);
@@ -257,26 +262,24 @@ export class MinhaContaPage implements OnInit {
             
             this.refDB.put(imageFile);     
             
-            this.userService.getUserImage(randomId).then(async (url) =>{
-              this.user.image.storagePath = url;
-              this.userService.updateUser(this.user);
-
-              const toast = await this.toastController.create({
-                message: "Foto salva",
-                position: 'top',
-                duration: 2000
-              });
-              toast.present();
-            })
-
-            
-
-            
+            setTimeout(() => {
+              this.userService.getUserImage(randomId).then(async (url) =>{
+                this.user['image'].storagePath = url;
+                
+                this.userService.updateUser(this.user);
+                await loading.dismiss();
+                
+                const toast = await this.toastController.create({
+                  message: "Foto salva",
+                  position: 'top',
+                  duration: 2000
+                });
+                toast.present();
+              })    
+            }, 4000)
+                                
           });
-        }
-  
-        
-  
+        }            
       })
     }
 }
@@ -284,4 +287,5 @@ export class ImgModel {
   url: string;
   name: string;
   file: string;
+  storagePath: string;
 }
