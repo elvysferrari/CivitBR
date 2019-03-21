@@ -23,36 +23,35 @@ export class FavoritosPage implements OnInit {
     this.userService.getLogged().subscribe(async (user: User) => {
       this.user = user;
 
-      const loading = await this.loadingController.create({
-        message: 'carregando',
-        showBackdrop: true
-      });
-      await loading.present();
-  
-
-      if(this.user.postFavoritos != undefined){
-        if(this.user.postFavoritos.length > 0){
-          this.postService.getPostFavoritos(this.user.postFavoritos).then(async (data: any[]) => {      
-            this.posts = data;
-            await loading.dismiss();
       
-            this.posts.sort((a: any, b: any) => {
-              return a.publicadoEm > b.publicadoEm ? -1 : 1;
+  
+      if(this.user){
+        if(this.user.postFavoritos != undefined){
+          if(this.user.postFavoritos.length > 0){
+            const loading = await this.loadingController.create({
+              message: 'carregando',
+              showBackdrop: true
             });
-            
-            this.posts.forEach(async (post: Post) => {        
-              await this.postService.getPostImages(post.imagens).then((result) => {
-                post.imagens = result;
-              })
-            })     
-          }, async (error) => await loading.dismiss());
+            await loading.present();
+
+            this.postService.getPostFavoritos(this.user.postFavoritos).then(async (data: any[]) => {      
+              this.posts = data;
+              await loading.dismiss();
+        
+              this.posts.sort((a: any, b: any) => {
+                return a.publicadoEm > b.publicadoEm ? -1 : 1;
+              });
+              
+              this.posts.forEach(async (post: Post) => {        
+                await this.postService.getPostImages(post.imagens).then((result) => {
+                  post.imagens = result;
+                })
+              })     
+            }, async (error) => await loading.dismiss());
+          }
         }
-        else{
-          await loading.dismiss();
-        }
-      }  else{
-        await loading.dismiss();
-      }  
+      }
+       
     })
     
   }

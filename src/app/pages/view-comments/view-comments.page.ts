@@ -81,6 +81,14 @@ export class ViewCommentsPage implements OnInit {
   deleteComment(commentId: string) {
     
     this.comentarioService.deleteComentario(commentId).then(async () => {
+      this.postService.getPost(this.postId).then((post: Post) => {        
+        if(post){
+          post.id = this.postId;
+          post.totalComentarios =  post.totalComentarios - 1;
+          this.postService.updatePost(post);
+        }
+      })
+
       const toast = await this.toastController.create({
         message: "Comentário deletado.",
         position: 'top',

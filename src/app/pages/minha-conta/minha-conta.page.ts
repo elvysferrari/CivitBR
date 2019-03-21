@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { LoadingController, AlertController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -14,8 +13,7 @@ import { Router } from '@angular/router';
 export class MinhaContaPage implements OnInit {
   user: User;
   
-  constructor(
-    private afStorage: AngularFireStorage,
+  constructor(    
     private userService: UserService,
     public loadingController: LoadingController,
     public alertController: AlertController,

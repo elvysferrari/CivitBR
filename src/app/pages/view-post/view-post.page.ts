@@ -67,10 +67,13 @@ export class ViewPostPage implements OnInit {
           this.postCurtidas = result;        
           if (this.postCurtidas != undefined) {
             this.post.totalCurtidas = this.postCurtidas.length;
-            this.curtiu = this.postCurtidas.find(x => x.userId == this.user.uid);
-            if (this.curtiu != undefined) {
-              this.heartColor = 'primary'
+            if(this.user){
+              this.curtiu = this.postCurtidas.find(x => x.userId == this.user.uid);
+              if (this.curtiu != undefined) {
+                this.heartColor = 'primary'
+              }
             }
+            
           }          
         })
       })
