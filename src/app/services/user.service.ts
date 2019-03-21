@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -11,37 +12,38 @@ export class UserService {
 
   userLogged: BehaviorSubject<User>;
 
-  constructor(public authService: AuthService, 
-              private firestore: AngularFirestore) {
+  constructor(public authService: AuthService,
+    private firestore: AngularFirestore,
+    private firestoreStorage: AngularFireStorage) {
     this.userLogged = new BehaviorSubject<User>(undefined);
 
   }
 
-  public setUserByUid(uid: string){
+  public setUserByUid(uid: string) {
     return new Promise((resolve, reject) => {
-      this.firestore.collection("users",ref => ref.where('uid', '==', uid)).snapshotChanges().subscribe((collection) => {     
+      this.firestore.collection("users", ref => ref.where('uid', '==', uid)).snapshotChanges().subscribe((collection) => {
         let users: User[];
-        
-        users = collection.map(e => {        
+
+        users = collection.map(e => {
           return {
-            id: e.payload.doc.id,          
+            id: e.payload.doc.id,
             ...e.payload.doc.data()
           } as User;
-        }) 
-              
-        if(users){        
-          this.login(users[0] as User)     
-          resolve(users[0]);   
-        }      
+        })
+
+        if (users) {
+          this.login(users[0] as User)
+          resolve(users[0]);
+        }
       }, err => reject(err))
     })
-    
+
   }
 
   public getLogged(): Observable<User> {
     return this.userLogged.asObservable();
   }
-  
+
   loginUser(loginUser: User) {
     return new Promise((resolve, reject) => {
       this.authService.signinWithEmail(
@@ -49,7 +51,7 @@ export class UserService {
           email: loginUser.email,
           password: loginUser.password
         })
-        .then(user => {          
+        .then(user => {
           this.login(loginUser);
           resolve(user);
         })
@@ -77,7 +79,7 @@ export class UserService {
           password: userCreate.password
         })
         .then(resp => {
-          
+
           userCreate.uid = resp.user.uid;
           const userJson = JSON.parse(JSON.stringify(userCreate));
           this.firestore.collection('users').add(userJson);
@@ -105,52 +107,61 @@ export class UserService {
     });
   }
 
-  getPrivatePages(){
+  getPrivatePages() {
     return [
-     {
-      title: 'Postagens',
-      url: '/home',
-      icon: 'paper'
-    },
-    {
-      title: 'Inserir Postagem',
-      url: '/insert-post',
-      icon: 'create'
-    },    
-    {
-      title: 'Favoritos',
-      url: '/favoritos',
-      icon: 'heart'
-    },
-    {
-      title: 'Minha Conta',
-      url: '/minha-conta',
-      icon: 'person'
-    }]
+      {
+        title: 'Postagens',
+        url: '/home',
+        icon: 'paper'
+      },
+      {
+        title: 'Inserir Postagem',
+        url: '/insert-post',
+        icon: 'create'
+      },
+      {
+        title: 'Favoritos',
+        url: '/favoritos',
+        icon: 'heart'
+      },
+      {
+        title: 'Minha Conta',
+        url: '/minha-conta',
+        icon: 'person'
+      }]
   }
 
-  getPublicPages(){
+  getPublicPages() {
     return [
-     {
-      title: 'Postagens',
-      url: '/home',
-      icon: 'paper'
-    },  
-    {
-      title: 'Inserir Postagem',
-      url: '/insert-post',
-      icon: 'create'
-    },
-    {
-      title: 'Entrar',
-      url: '/login',
-      icon: 'person'
-    }]
+      {
+        title: 'Postagens',
+        url: '/home',
+        icon: 'paper'
+      },
+      {
+        title: 'Inserir Postagem',
+        url: '/insert-post',
+        icon: 'create'
+      },
+      {
+        title: 'Entrar',
+        url: '/login',
+        icon: 'person'
+      }]
   }
-  updateUserFavoritos(user: User, favoritos: string[]){
+  updateUser(user: User) {
     //delete post.id;
     this.firestore.doc('users/' + user.id).update(user);
     //this.login(user)
+  }
+
+  getUserImage(id: string) {
+    return new Promise<any>(async (resolve, reject) => {
+      this.firestoreStorage.ref(id).getDownloadURL().subscribe((value => {
+        resolve(value)      
+      }))
+    })
+
   }
 
 }

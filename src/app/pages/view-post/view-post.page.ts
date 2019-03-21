@@ -156,7 +156,7 @@ export class ViewPostPage implements OnInit {
         this.isFavorito = "heart-empty"  
       }
             
-      this.userService.updateUserFavoritos(this.user, this.user.postFavoritos);
+      this.userService.updateUser(this.user);
     }
   }
   clickComentarios() {

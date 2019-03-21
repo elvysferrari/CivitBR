@@ -1,6 +1,6 @@
 import { PostsService } from './../../services/posts.service';
 import { Post } from './../../models/post';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -41,7 +41,8 @@ export class InsertPostPage implements OnInit {
     private platform: Platform,
     private camera: Camera,
     private webview: WebView,
-    public actionSheetController: ActionSheetController) {
+    public actionSheetController: ActionSheetController,
+    private changeRef: ChangeDetectorRef) {
 
     this.postForm = this.formBuilder.group({
       titulo: ['', [Validators.required, Validators.minLength(6)]],
@@ -80,6 +81,7 @@ export class InsertPostPage implements OnInit {
       let filePath = this.file.dataDirectory + newFileName;
       let resPath = this.pathForImage(filePath);
       this.images.unshift({ name: newFileName, url: resPath, file: filePath });
+      this.changeRef.detectChanges();
     }, error => {
       
     });
