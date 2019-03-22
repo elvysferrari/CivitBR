@@ -1,6 +1,6 @@
 import { UserService } from 'src/app/services/user.service';
 import { Post } from './../../models/post';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { PostsService } from 'src/app/services/posts.service';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController, AlertController } from '@ionic/angular';
@@ -23,7 +23,8 @@ export class HomePage {
               public loadingController: LoadingController,
               public userService: UserService,
               public toastController: ToastController,
-              public alertController: AlertController){}
+              public alertController: AlertController,
+              private ref: ChangeDetectorRef){}
 
   
   async ngOnInit() {
@@ -48,9 +49,10 @@ export class HomePage {
       
       this.postsFiltered.forEach(async (post: Post) => {        
         await this.postService.getPostImages(post.imagens).then((result) => {
-          post.imagens = result;
+          post.imagens = result;          
         })
       }) 
+      this.ref.detectChanges();
       this.posts = this.postsFiltered
     }) 
     this.userService.getLogged().subscribe(async (user: User) => {

@@ -14,7 +14,75 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-list>
+  <div style="padding-left: 10px; display: flex; flex-direction: row">
+    <div>
+      <ion-chip style="background-color: #fff" (click)="clickFilterPosts('all')" [color]="filterPosts == 'all' ? 'primary' : 'medium'">
+        <ion-icon name="paper"></ion-icon>
+        <ion-label>Todas postagens</ion-label>
+      </ion-chip>
+    </div>
+    <div>
+      <ion-chip style="background-color: #fff" (click)="clickFilterPosts('my')" [color]="filterPosts == 'my' ? 'primary' : 'medium'">
+        <ion-icon name="funnel"></ion-icon>
+        <ion-label>Minhas postagens</ion-label>
+      </ion-chip>
+    </div>
+  </div>
+  <ion-card class="cards" *ngFor="let post of postsFiltered">
+    <ion-card-content class="cards-content">
+      <div style="display: flex; flex-direction: row">
+        <div>
+          <ion-thumbnail (click)="viewPost(post)" style="width: 100px; height: 107px;" slot="start">
+            <ion-img [src]="post.imagens[0]?.url != undefined ? post.imagens[0].url : 'assets/images/noimage.png'">
+            </ion-img>
+          </ion-thumbnail>
+        </div>
+        <div>
+          <div style="display: flex; flex-direction: column; width: 100%; padding-left: 7px">
+            <div style="display: flex; flex-direction: column">
+              <div (click)="viewPost(post)" style="width: 91%" class="label-item-title">
+                {{post.titulo}}
+              </div>
+
+            </div>
+
+            <div (click)="viewPost(post)" class="label-item-date">
+              Departamento: {{post.departamento}}
+            </div>
+            <div (click)="viewPost(post)" class="label-item-date">
+              Situação: {{ post.situacao ? post.situacao : 'Pendente' }}
+            </div>
+            <div (click)="viewPost(post)" class="label-item-date">
+              Publicado em: {{post.publicadoEm | date:'dd/MM/yyyy HH:mm'}}
+            </div>
+            <div (click)="viewPost(post)" class="label-item-date">
+              {{ post.cidade }}, {{ post.localizacao }}
+            </div>
+            <div class="label-item-date">
+              <div style="display: flex; flex-direction: row">
+                <ion-label>
+                  <ion-icon name="thumbs-up"></ion-icon>{{ post.totalCurtidas }}&nbsp;&nbsp;
+                </ion-label>
+                <ion-label>
+                  <ion-icon name="chatboxes"></ion-icon>{{ post.totalComentarios }}
+                </ion-label>
+                <div style="margin-top: -8px" (click)="deletePost(post)"
+                  *ngIf="post.userUid == user?.uid && filterPosts == 'my'">
+                  <ion-chip color="danger" outline="true" style="height: 12px; font-size: 12px">
+                    <ion-icon style="font-size: 20px" name="close"></ion-icon>
+                    <ion-label>Excluir</ion-label>
+                  </ion-chip>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </ion-card-content>
+  </ion-card>
+  <!-- <ion-list>
     <div style="padding-left: 10px; display: flex; flex-direction: row">
       <div>
         <ion-chip (click)="clickFilterPosts('all')" [color]="filterPosts == 'all' ? 'primary' : 'medium'">
@@ -73,9 +141,7 @@
         </div>
       </div>
     </ion-item>
-  </ion-list>
+  </ion-list> -->
 
-  <ion-card>
 
-  </ion-card>
 </ion-content>
