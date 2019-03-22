@@ -5,5 +5,5 @@ export class User {
     password: string;
     uid: string;
     postFavoritos: string[];
-    image: any;
+    image: string;
 }

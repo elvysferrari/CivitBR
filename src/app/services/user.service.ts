@@ -31,7 +31,7 @@ export class UserService {
           } as User;
         })
 
-        if (users) {
+        if (users) {          
           this.login(users[0] as User)
           resolve(users[0]);
         }
@@ -150,8 +150,8 @@ export class UserService {
       }]
   }
   updateUser(user: User) {
-    //delete post.id;
-    this.firestore.doc('users/' + user.id).update(user);
+    //delete user.id;
+    this.firestore.doc('users/' + user.id).update(user)
     //this.login(user)
   }
 
@@ -161,7 +161,26 @@ export class UserService {
         resolve(value)      
       }))
     })
-
   }
 
+  updateUserImage(userId, image){
+    return new Promise<boolean>(async (resolve, reject) => {
+      this.firestore.doc('usersImages/' + userId + '/image/').update(image).then((r) => {
+        alert(r)
+        resolve(true)
+      }, err => reject(err)).catch((error => {
+        reject(error)
+      }));
+    })
+    
+  }
+
+  createUserImage(userId, url) {
+    let img = {userId: userId, url: url};
+    const imgJson = JSON.parse(JSON.stringify(img));
+    this.firestore.collection('userimages').add(imgJson);
+    this.userLogged.subscribe((user) => {
+      user.image = url;
+    })
+  }
 }

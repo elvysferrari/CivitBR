@@ -4,8 +4,8 @@
       <ion-content >
         <ion-item color="tertiary" lines="none">
           <ion-avatar  slot="start">
-            <img *ngIf="user" [src]="user.image.storagePath">
-            <img *ngIf="!user" src="assets/images/profile.jpg">
+            <img *ngIf="user" [src]="user.image">
+            <img *ngIf="!user" src="assets/images/noavatar.png">
           </ion-avatar>
           <div style="width: 100%; display: flex; flex-direction: column;">
               <ion-label style="">{{ user?.name ? user.name : 'Faça login' }}</ion-label>
