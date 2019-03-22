@@ -6,4 +6,5 @@ export class User {
     uid: string;
     postFavoritos: string[];
     image: string;
+    role: string;
 }

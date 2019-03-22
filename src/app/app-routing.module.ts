@@ -26,7 +26,10 @@ const routes: Routes = [
   { path: 'view-comments/:id', loadChildren: './pages/view-comments/view-comments.module#ViewCommentsPageModule' },
   { path: 'teste', loadChildren: './pages/teste/teste.module#TestePageModule' },
   { path: 'favoritos', loadChildren: './pages/favoritos/favoritos.module#FavoritosPageModule' },
-  { path: 'minha-conta', loadChildren: './pages/minha-conta/minha-conta.module#MinhaContaPageModule' }
+  { path: 'minha-conta', loadChildren: './pages/minha-conta/minha-conta.module#MinhaContaPageModule' },
+  { path: 'admin', loadChildren: './pages/admin/admin.module#AdminPageModule' },
+  { path: 'admin-post-view/:id', loadChildren: './pages/admin-post-view/admin-post-view.module#AdminPostViewPageModule' }
+
 
 ];
 

@@ -31,7 +31,7 @@ export class SignupPage implements OnInit {
     let formUser = this.signinUp.value as User;
     formUser.email = formUser.email.trim().toLowerCase();
     formUser.password = formUser.password.trim();
-      
+    formUser.role = "user"  
     formUser.image = 'assets/images/noavatar.png';
     const loading = await this.loadingController.create({
       message: 'Cadastrando',

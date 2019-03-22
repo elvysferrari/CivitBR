@@ -14,11 +14,11 @@ import { User } from './models/user';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  
-  
+
+
   public appPages = [];
-  public user: User; 
- 
+  public user: User;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -30,6 +30,17 @@ export class AppComponent {
     this.initializeApp();
     this.userService.getLogged().subscribe((user: User) => {
       this.user = user;
+      if (this.user) {
+        if (this.user.role == "admin") {
+          this.appPages.push(
+          {
+            title: 'Admin',
+            url: '/admin',
+            icon: 'construct'
+          })
+        }
+      }
+
     })
   }
 
@@ -41,34 +52,34 @@ export class AppComponent {
     });
 
     this.auth.afAuth.authState
-    .subscribe(
-      async (user) => {        
-        if (user) {
-          this.appPages = this.userService.getPrivatePages();     
-          await this.userService.setUserByUid(user.uid);
-        }else{
-          this.appPages = this.userService.getPublicPages();
+      .subscribe(
+        async (user) => {
+          if (user) {
+            this.appPages = this.userService.getPrivatePages();
+            await this.userService.setUserByUid(user.uid);
+          } else {
+            this.appPages = this.userService.getPublicPages();
+          }
+          this.route.navigateByUrl("home")
+        },
+        () => {
+          this.route.navigateByUrl("home")
         }
-        this.route.navigateByUrl("home")
-      },
-      () => {
-        this.route.navigateByUrl("home")
-      }
-    );
-   
+      );
+
   }
 
-  navigateTo(url){
-    if(url == "/insert-post"){
-      if(this.user){
+  navigateTo(url) {
+    if (url == "/insert-post") {
+      if (this.user) {
         this.route.navigate([url])
-      }else{
+      } else {
         this.route.navigate(['/login'])
       }
-    }else{
+    } else {
       this.route.navigate([url])
     }
-    
+
   }
-  
+
 }

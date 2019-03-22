@@ -37,13 +37,36 @@ export class HomePage {
     await loading.present();
 
     this.postService.getPosts().subscribe(async (data) => {      
-      this.postsFiltered = data.map(e => {        
+      this.posts = data.map(e => {        
         return {
           id: e.payload.doc.id,          
           ...e.payload.doc.data()
         } as Post;
       }).filter(x => x.inativo == false);  
-      await loading.dismiss();
+      await loading.dismiss();   
+      
+      this.posts.forEach(async (post: Post) => {        
+        await this.postService.getPostImages(post.imagens).then((result) => {
+          post.imagens = result;          
+        })
+      }) 
+
+      this.posts.sort((a: any, b: any) => {
+        return a.publicadoEm > b.publicadoEm ? -1 : 1;
+      });
+      this.postsFiltered = this.posts.filter(x => x.status == "Aprovado");
+      
+      this.ref.detectChanges();
+      //this.posts = this.postsFiltered
+
+
+     /*  this.postsFiltered = data.map(e => {        
+        return {
+          id: e.payload.doc.id,          
+          ...e.payload.doc.data()
+        } as Post;
+      }).filter(x => x.inativo == false);  
+      await loading.dismiss();   
 
       this.postsFiltered.sort((a: any, b: any) => {
         return a.publicadoEm > b.publicadoEm ? -1 : 1;
@@ -55,8 +78,11 @@ export class HomePage {
         })
       }) 
       this.ref.detectChanges();
-      this.posts = this.postsFiltered
+      this.posts = this.postsFiltered */
+      
     }) 
+
+
     this.userService.getLogged().subscribe(async (user: User) => {
       this.user = user;
     })   
@@ -65,10 +91,11 @@ export class HomePage {
   async clickFilterPosts(filter: string){
     if(this.filterPosts != filter){
       if(filter=="all"){
-        this.postsFiltered = this.posts;
+        this.postsFiltered = this.posts.filter(x => x.status == "Aprovado");
         this.filterPosts = filter;
       }else{
         if(this.user){
+          
           this.postsFiltered = this.posts.filter(x => x.userUid == this.user.uid);
           this.filterPosts = filter;
         }else{
@@ -86,14 +113,14 @@ export class HomePage {
   }
   changeSearch(evt) {
     if (evt.detail.value == "") {
-      this.postsFiltered = this.posts;
+      this.postsFiltered = this.posts.filter(x => x.status == "Aprovado");
     } else {
-      this.postsFiltered = this.posts.filter(x => x.titulo.toLocaleLowerCase().includes(evt.detail.value.toLocaleLowerCase()));
+      this.postsFiltered = this.posts.filter(x => x.status == "Aprovado" && x.titulo.toLocaleLowerCase().includes(evt.detail.value.toLocaleLowerCase()));
     }
   }
 
   cancelSearch(evt) {
-    this.postsFiltered = this.posts;
+    this.postsFiltered = this.posts.filter(x => x.status == "Aprovado");;
     this.showSearchBar = false;
   }
 

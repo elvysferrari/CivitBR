@@ -1,35 +1,13 @@
 <ion-header>
   <ion-toolbar color="tertiary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="clickIconSearchBar()">
-        <ion-icon slot="icon-only" name="search"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title style="text-align: center">CivitBR</ion-title>
-    <ion-searchbar animated *ngIf="showSearchBar" (ionCancel)="cancelSearch($event)" (ionChange)="changeSearch($event)"
-      placeholder="Pesquisar"></ion-searchbar>
-  </ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+  <ion-title>Admin</ion-title>
+</ion-toolbar>
 </ion-header>
+
 <ion-content>
-  <div style="padding-left: 10px; display: flex; flex-direction: row">
-    <div>
-      <ion-chip style="background-color: #fff" (click)="clickFilterPosts('all')"
-        [color]="filterPosts == 'all' ? 'primary' : 'medium'">
-        <ion-icon name="paper"></ion-icon>
-        <ion-label>Todas postagens</ion-label>
-      </ion-chip>
-    </div>
-    <div>
-      <ion-chip style="background-color: #fff" (click)="clickFilterPosts('my')"
-        [color]="filterPosts == 'my' ? 'primary' : 'medium'">
-        <ion-icon name="funnel"></ion-icon>
-        <ion-label>Minhas postagens</ion-label>
-      </ion-chip>
-    </div>
-  </div>
   <ion-card class="cards" *ngFor="let post of postsFiltered">
     <ion-card-content class="cards-content">
       <div style="display: flex; flex-direction: row">
@@ -45,15 +23,11 @@
               <div (click)="viewPost(post)" style="width: 91%" class="label-item-title">
                 {{post.titulo}}
               </div>
-
             </div>
 
             <div (click)="viewPost(post)" class="label-item-date">
               Departamento: {{post.departamento}}
-            </div>
-            <div *ngIf="filterPosts == 'all'" (click)="viewPost(post)" class="label-item-date">
-              Situação: {{ post.situacao ? post.situacao : 'Pendente' }}
-            </div>
+            </div>          
             <div *ngIf="post.userUid == user?.uid && filterPosts == 'my'" class="label-item-date">
               Status: {{ post.status }}
             </div>
@@ -71,12 +45,14 @@
                 <ion-label>
                   <ion-icon name="chatboxes"></ion-icon>{{ post.totalComentarios }}
                 </ion-label>
-                <div style="margin-top: -8px" (click)="deletePost(post)"
-                  *ngIf="post.userUid == user?.uid && filterPosts == 'my'">
+                <div style="margin-top: -8px" (click)="deletePost(post)">
                   <ion-chip color="danger" outline="true" style="height: 12px; font-size: 12px">
                     <ion-icon style="font-size: 20px" name="close"></ion-icon>
                     <ion-label>Excluir</ion-label>
                   </ion-chip>
+                </div> 
+                <div style="margin-top: -8px"> 
+                  <ion-toggle [checked]="post.status == 'Aprovado'" size="small" (ionChange)="changeStatus(post)"></ion-toggle>                  
                 </div>
               </div>
             </div>            

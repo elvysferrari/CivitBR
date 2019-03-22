@@ -108,6 +108,7 @@ export class UserService {
   }
 
   getPrivatePages() {
+    
     return [
       {
         title: 'Postagens',
