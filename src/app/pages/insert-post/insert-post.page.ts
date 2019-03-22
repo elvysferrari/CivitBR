@@ -278,6 +278,7 @@ export class InsertPostPage implements OnInit {
     formPost.inativo = false;
     formPost.publicadoEm = new Date();
     formPost.status = "Aguardando aprovação"
+    formPost.situacao = "Pendente"
     formPost.userName = this.user.name;
     formPost.userUid = this.user.uid;
 
