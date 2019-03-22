@@ -10,7 +10,7 @@
 <ion-content *ngIf="user" padding>
   <ion-list>
     <ion-item style="padding-left: 30%" lines="none">
-      <ion-avatar [ngStyle]="{'background-color' : user.image != '' ? 'transparent' : '#826fc2'}"
+      <ion-avatar [ngStyle]="{'background-color' : user.image == 'assets/images/noavatar.png' ? 'transparent' : '#826fc2'}"
         style="width: 100px; height: 100px;">
         <img [src]="user.image">
       </ion-avatar>
