@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +13,7 @@ export class PostsService {
     private firestoreStorage: AngularFireStorage) { }
 
   createPost(post: Post) {
+    
     const postJson = JSON.parse(JSON.stringify(post));
     return this.firestore.collection('posts').add(postJson);
   }

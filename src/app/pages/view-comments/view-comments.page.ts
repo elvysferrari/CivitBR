@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { PostsService } from 'src/app/services/posts.service';
 import { Post } from 'src/app/models/post';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-view-comments',
@@ -58,17 +59,18 @@ export class ViewCommentsPage implements OnInit {
   }
 
   sendComment() {
+    let timestamp = firebase.firestore.Timestamp.now().toDate(); 
+    
     let comment = new Comentario();
     comment.comentario = this.message;
-    comment.dataComentario = new Date();
+    comment.dataComentario = timestamp;
     comment.userId = this.user.uid;
     comment.userName = this.user.name;
     comment.postId = this.postId;
     this.comentarioService.addComentario(comment).then(() => {
       this.message = "";
       //get post e somar + 1 comentario
-      this.postService.getPost(this.postId).then((post: Post) => {
-        console.log(post)
+      this.postService.getPost(this.postId).then((post: Post) => {        
         if(post){
           post.id = this.postId;
           post.totalComentarios =  post.totalComentarios + 1;

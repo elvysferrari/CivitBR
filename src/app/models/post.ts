@@ -13,7 +13,7 @@ export class Post {
     userUid: string;
     userName: string;
     situacao: string;
-    publicadoEm: Date;
+    publicadoEm: any;
     localizacao: string;
     totalComentarios: number;
     totalCurtidas: number;

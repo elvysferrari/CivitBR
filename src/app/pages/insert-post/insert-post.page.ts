@@ -13,6 +13,7 @@ import { Camera, PictureSourceType, CameraOptions, DestinationType } from '@ioni
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File, FileEntry } from '@ionic-native/File/ngx'
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+import * as firebase from 'firebase';
 
 
 @Component({
@@ -270,13 +271,14 @@ export class InsertPostPage implements OnInit {
     if(this.images.length > 0){
       await this.uploadFirebase();
     }
-    
+    let timestamp = firebase.firestore.Timestamp.now().toDate(); 
+ 
     let formPost = this.postForm.value as Post;
     formPost.totalComentarios = 0;
     formPost.totalCurtidas = 0;
     formPost.imagens = this.filePaths;
     formPost.inativo = false;
-    formPost.publicadoEm = new Date();
+    formPost.publicadoEm = timestamp;
     formPost.status = "Aguardando aprovação"
     formPost.situacao = "Pendente"
     formPost.userName = this.user.name;

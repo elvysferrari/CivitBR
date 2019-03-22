@@ -24,7 +24,7 @@
       </ion-item>
     <ion-item style="padding-left: 10px">
 
-      <ion-label style="color: #666; font-size: 16px" class="labels" position="stacked">Nome</ion-label>
+      <ion-label style="color: #666; font-size: 16px" class="labels" position="stacked">Nome * mín. 4</ion-label>
       <ion-input [(ngModel)]="user.name" class="labels" placeholder="Dígite seu nome"></ion-input>
 
     </ion-item>
@@ -41,7 +41,7 @@
       </ion-chip>
     </ion-item>
   </ion-list>
-  <ion-button shape="round" (click)="onSubmit()" [disabled]="user.name == ''" expand="full" color="primary">Salvar
+  <ion-button shape="round" (click)="onSubmit()" [disabled]="(user.name.length < 4 || user.name.length > 30)" expand="full" color="primary">Salvar
   </ion-button>
   <!-- <ion-fab style="padding-bottom: 35px;" vertical="top" horizontal="end" edge slot="fixed">
       <ion-fab-button (click)="selectPhotoType()" style="width: 38px; height: 38px;">

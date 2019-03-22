@@ -23,6 +23,7 @@ export class MinhaContaPage implements OnInit {
   task: any;
   uploadProgress: number = 0;
   image: ImgModel;
+  editMode: boolean;
   constructor(
     private afStorage: AngularFireStorage,
     private userService: UserService,
@@ -45,8 +46,28 @@ export class MinhaContaPage implements OnInit {
     })
   }
 
-  onSubmit() {    
+  async onSubmit() {
+
     this.userService.updateUser(this.user);
+
+    const loading = await this.loadingController.create({
+      message: 'salvando',
+      showBackdrop: true
+    });
+    await loading.present();
+
+    setTimeout(async () => {
+      await loading.dismiss();
+      const toast = await this.toastController.create({
+        message: "Usuário salvo.",
+        position: 'top',
+        duration: 2000
+      });
+      toast.present();
+    }, 3000)
+
+    
+    
   }
 
   async redefinirSenha() {
@@ -131,7 +152,7 @@ export class MinhaContaPage implements OnInit {
       img.url = resPath;
       img.name = newFileName
       img.storagePath = "";
-      this.image = img;  
+      this.image = img;
 
       this.uploadFirebase();
     }, error => {
@@ -261,25 +282,33 @@ export class MinhaContaPage implements OnInit {
           this.refDB = this.afStorage.ref(randomId);
 
           this.task = this.refDB.put(imageFile);
-          
+
           await this.task.snapshotChanges().subscribe(async (a) => {
             if (a.bytesTransferred == a.totalBytes) {
               await loading.dismiss();
-              
+
               this.userService.getUserImage(randomId).then(async (url) => {
                 this.user.image = url;
-                //this.userService.createUserImage(this.user.id, url)
-                this.ref.detectChanges();   
+                this.userService.updateUser(this.user);
+                this.ref.detectChanges();
+
+                const toast = await this.toastController.create({
+                  message: "Foto salva.",
+                  position: 'top',
+                  duration: 2000
+                });
+                toast.present();
+
               })
             }
-            
+
             /* this.uploadProgress = (a.bytesTransferred / a.totalBytes) * 100; */
 
           });
 
 
 
-          
+
         });
       }
     })

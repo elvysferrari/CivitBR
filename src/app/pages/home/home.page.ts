@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { User } from 'src/app/models/user';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -28,6 +29,7 @@ export class HomePage {
 
   
   async ngOnInit() {
+    
     const loading = await this.loadingController.create({
       message: 'carregando',
       showBackdrop: true
